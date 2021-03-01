@@ -18,6 +18,8 @@ class DBController:
     # It starts off with turning it into an int, then a double, and then a string
     # if all else fails
     def as_number(self, number):
+        if (len(number) == 0):
+            return None
         try:
             return int(number)
         except Exception as e:
@@ -30,9 +32,10 @@ class DBController:
     # object that can be inserted into the database
     def row_to_anime(self, row, column_names):
         anime = {}
+        # the first column should be the unique id
         for i in range(0, len(row)):
             # we need to process areas where input could be an array
-            if (row[i][0] == "[" and row[i][len(row[i]) - 1] == "]"):
+            if (len(row[i]) >= 2 and row[i][0] == "[" and row[i][len(row[i]) - 1] == "]"):
                 # Get rid of quotes surrounding each element
                 row[i] = row[i].replace("'", "")
                 # Get rid of array brackets
@@ -50,11 +53,13 @@ class DBController:
     # Takes an anime dictionary object and inserts it into the database
     def insert_anime_to_db(self, anime):
         try:
+            print("Attempting to add Anime_id {}".format(anime["Anime_id"]))
             self.db.anime.insert_one(anime)
         except Exception as e:
-            print("Document failed validation, writing to {}".format(self.errorlog))
-            with open(self.errorlog, 'a') as log:
-                log.write(str(anime))
+            if (self.db.anime.count_documents({"Anime_id":anime["Anime_id"]}, limit = 1) == 0):
+                print("Anime_id {} failed validation, writing to {}".format(anime["Anime_id"], self.errorlog))
+                with open(self.errorlog, 'a') as log:
+                    log.write("{}".format(anime))
 
     # Takes a csv file containing a dataset of animes and inserts it into the database
     def import_csv_animes(self, csv_path):
@@ -62,7 +67,6 @@ class DBController:
             csv_reader = csv.reader(csv_file, delimiter=',')
             index = 0
             column_names = []
-
             for row in csv_reader:
                 anime = None
                 # If this is the first row, get the column names
