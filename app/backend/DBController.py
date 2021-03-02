@@ -32,7 +32,6 @@ class DBController:
     # object that can be inserted into the database
     def row_to_anime(self, row, column_names):
         anime = {}
-        # the first column should be the unique id
         for i in range(0, len(row)):
             # we need to process areas where input could be an array
             if (len(row[i]) >= 2 and row[i][0] == "[" and row[i][len(row[i]) - 1] == "]"):
@@ -53,13 +52,16 @@ class DBController:
     # Takes an anime dictionary object and inserts it into the database
     def insert_anime_to_db(self, anime):
         try:
-            print("Attempting to add Anime_id {}".format(anime["Anime_id"]))
             self.db.anime.insert_one(anime)
+            return True
         except Exception as e:
+            # If there are any errors inserting the specified anime, log and
+            # print it
             if (self.db.anime.count_documents({"Anime_id":anime["Anime_id"]}, limit = 1) == 0):
                 print("Anime_id {} failed validation, writing to {}".format(anime["Anime_id"], self.errorlog))
                 with open(self.errorlog, 'a') as log:
                     log.write("{}".format(anime))
+                return False
 
     # Takes a csv file containing a dataset of animes and inserts it into the database
     def import_csv_animes(self, csv_path):
