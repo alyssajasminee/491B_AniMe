@@ -1,5 +1,8 @@
 from flask import Flask
 from views import *
+from backend.DBController import DBController
+
+db = DBController()
 
 def create_app(config_file):
 	app = Flask(__name__)  # Create application object
