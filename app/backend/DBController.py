@@ -1,15 +1,14 @@
 import pymongo
 import csv
 import json
+from backend.DBUserController import DBUserController
 
 class DBController:
     def __init__(self):
         self.errorlog = "backend\\errorlog.txt"
         self.client = pymongo.MongoClient("mongodb+srv://AniMeAdmin:Haikyu!@cluster0.zhz9r.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
         self.db = self.client.app
-
-    def get_users(self):
-        return self.db.user
+        self.userDB = DBUserController(self.errorlog, self.client, self.db)
 
     def get_animes(self):
         return self.db.anime
