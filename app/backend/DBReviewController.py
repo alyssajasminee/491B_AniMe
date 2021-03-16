@@ -3,6 +3,13 @@ import csv
 import json
 from backend.DBUserController import DBUserController
 
+a_id = "anime_id"
+u_id = "user_id"
+rating_key = "rating"
+desc_key = "description"
+title_key = "title"
+scoredby_key = "scoredby"
+
 class DBReviewController:
     def __init__(self, errorlog, client, db):
         self.errorlog = errorlog
@@ -69,19 +76,19 @@ class DBReviewController:
     def insert_review_to_db(self, review, ratings = None):
         # End early if this review does not review any existing animes in the database
         # log the ones that are not inserted
-        if self.db.anime.count_documents({"anime_id":review["anime_id"]}, limit = 1) == 0:
-            print("trying to review anime {} but it does not exist in the db".format(review["anime_id"]))
+        if self.db.anime.count_documents({a_id:review[a_id]}, limit = 1) == 0:
+            print("trying to review anime {} but it does not exist in the db".format(review[a_id]))
             self.write_to_errorlog(review, 'a')
             return False
 
         try:
-            if "description" not in review:
-                review["description"] = ""
-            if "title" not in review:
-                review["title"] = ""
+            if desc_key not in review:
+                review[desc_key] = ""
+            if title_key not in review:
+                review[title_key] = ""
 
             self.db.review.insert_one(review)
-            print("Submitted review for anime {}".format(review["anime_id"]))
+            print("User {} Submitted review of {} for anime {}".format(review[u_id], review[rating_key], review[a_id]))
             # Otimization choice. For larger operations it is more efficient
             # to provide this method with a ratings, that way we cut down
             # on the number of calls to update_ratings which each time will make
@@ -97,14 +104,14 @@ class DBReviewController:
             # If there are any errors inserting the specified review, log and
             # print it. Additionally checks to make sure this isn't a duplicated entry
             # in which case it just ignores it
-            if (self.db.review.count_documents({"user_id":review["user_id"], "anime_id":review["anime_id"]}, limit = 1) == 0):
+            if (self.db.review.count_documents({u_id:review[u_id], a_id:review[a_id]}, limit = 1) == 0):
                 print("review for user {} for anime {} failed validation, writing to {}"
-                .format(review["user_id"], review["anime_id"], self.errorlog))
+                .format(review[u_id], review[a_id], self.errorlog))
                 self.write_to_errorlog(review, 'a')
                 return False
             else:
                 print("user {} already has a review for anime {}"
-                .format(review["user_id"], review["anime_id"]))
+                .format(review[u_id], review[a_id]))
                 return False
 
     # Helper function that iterates through the ratings dictionary to update
@@ -113,23 +120,23 @@ class DBReviewController:
         # Process the newly built ratings dictionary to update the ratings
         # for affected animes
         for key, value in ratings.items():
-            query = {"anime_id":key}
+            query = {a_id:key}
             anime = self.db.anime.find_one(query)
             if anime is not None:
-                rating = anime["rating"] * anime["scoredby"] + value[0]
-                scoredby = anime["scoredby"] + value[1]
-                update = {"$set": {"rating":rating / scoredby, "scoredby":scoredby}}
+                rating = anime[rating_key] * anime[scoredby_key] + value[0]
+                scoredby = anime[scoredby_key] + value[1]
+                update = {"$set": {rating_key:rating / scoredby, scoredby_key:scoredby}}
                 self.db.anime.update(query, update)
 
     # Helper function that helps build the ratings dictionary
     def build_ratings(self, review, ratings):
-        id = review["anime_id"]
+        id = review[a_id]
         rating = [0, 0]
         if id in ratings:
             rating = ratings[id]
 
         # 0 is where we will accumulate the sum
-        rating[0] += review["rating"]
+        rating[0] += review[rating_key]
         # 1 is where we will accumulate how many ratings are stored
         rating[1] += 1
 
@@ -141,7 +148,7 @@ class DBReviewController:
         review = {}
 
         for i in range(0, len(row)):
-            if column_names[i] == "user_id":
+            if column_names[i] == u_id:
                 review[column_names[i]] = row[i]
             else:
                 review[column_names[i]] = self.as_number(row[i])
@@ -151,10 +158,10 @@ class DBReviewController:
     # helper function that determines whether or not something might be a review
     # from a csv file
     def is_review(self, column_names):
-        if "user_id" not in column_names:
+        if u_id not in column_names:
             return False
-        if "anime_id" not in column_names:
+        if a_id not in column_names:
             return False
-        if "rating" not in column_names:
+        if rating_key not in column_names:
             return False
         return True

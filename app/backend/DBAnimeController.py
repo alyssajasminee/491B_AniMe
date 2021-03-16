@@ -2,6 +2,22 @@ import pymongo
 import csv
 import json
 
+a_id = "anime_id"
+title_key = "title"
+genre_key = "genre"
+synopsis_key = "synopsis"
+type_key = "type"
+producer_key = "producer"
+studio_key = "studio"
+rating_key = "rating"
+scoredby_key = "scoredby"
+popularity_key = "popularity"
+members_key = "members"
+episodes_key = "episodes"
+source_key = "source"
+aired_key = "aired"
+link_key = "link"
+
 class DBAnimeController:
     def __init__(self, errorlog, client, db):
         self.errorlog = errorlog
@@ -56,16 +72,16 @@ class DBAnimeController:
         try:
             # inserted animes should always start with a rating of 0 since we
             # don't have any users who have rated it yet
-            anime["rating"] = 0
+            anime[rating_key] = 0
             # make calculating rating easier / less resource intensive
-            anime["scoredby"] = 0
+            anime[scoredby_key] = 0
             self.db.anime.insert_one(anime)
             return True
         except Exception as e:
             # If there are any errors inserting the specified anime, log and
             # print it
-            if (self.db.anime.count_documents({"anime_id":anime["anime_id"]}, limit = 1) == 0):
-                print("Anime_id {} failed validation, writing to {}".format(anime["Anime_id"], self.errorlog))
+            if (self.db.anime.count_documents({a_id:anime[a_id]}, limit = 1) == 0):
+                print("anime {} failed validation, writing to {}".format(anime[title_key], self.errorlog))
                 self.write_to_errorlog(anime, 'a')
                 return False
 

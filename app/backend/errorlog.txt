@@ -22,3 +22,8 @@
 {'user_id': '9', 'anime_id': 3, 'rating': 10}
 {'user_id': '9', 'anime_id': 3, 'rating': 10}
 {'user_id': '9', 'anime_id': 3, 'rating': 10}
+{'user_id': '9', 'anime_id': 3, 'rating': 10}
+{'user_id': '9', 'anime_id': 3, 'rating': 10}
+{'user_id': '9', 'anime_id': 3, 'rating': 10}
+{'user_id': '9', 'anime_id': 3, 'rating': 10}
+{'user_id': '9', 'anime_id': 3, 'rating': 10}
