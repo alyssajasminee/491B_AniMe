@@ -79,15 +79,18 @@ class DBAnimeController:
 
         try:
             self.db.anime.insert_many(animes, ordered = False)
+            print("Inserted {} animes".format(len(animes)))
         except Exception as writeErrors:
             # If there are any errors writing the reviews, then we should
             # log the errors
             for writeError in writeErrors.details["writeErrors"]:
                 index = writeError["index"]
                 anime = animes[index]
-                errmsg = "anime {} with title {} unsuccessfully inserted with message {}".format(anime[a_id], anime[title_key], writeError["errmsg"])
+                errmsg = "anime {} unsuccessfully inserted with message {}".format(anime[a_id], writeError["errmsg"])
                 print(errmsg)
                 self.write_to_errorlog(errmsg, 'a')
+
+            print("Inserted {} animes".format(len(animes) - len(writeErrors.details["writeErrors"])))
 
     def write_to_errorlog(self, message, mode):
         with open(self.errorlog, mode) as log:
@@ -100,6 +103,8 @@ class DBAnimeController:
             index = 0
             column_names = []
             animes = []
+            # This is to prevent csv files from having duplicated values which the main one we are using does smh
+            seenIds = set()
             for row in csv_reader:
                 anime = None
                 # If this is the first row, get the column names
@@ -110,8 +115,9 @@ class DBAnimeController:
                 index += 1
 
                 # if this is an anime entry, insert it into the anime db
-                if (anime != None and index > 0 and len(anime) == len(column_names)):
+                if anime != None and index > 0 and len(anime) == len(column_names) and anime[a_id] not in seenIds:
                     animes.append(anime)
+                    seenIds.add(anime[a_id])
 
                 if len(animes) == batch_size:
                     self.insert_animes_to_db(animes)

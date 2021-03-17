@@ -94,6 +94,7 @@ class DBReviewController:
         try:
             self.db.review.insert_many(reviews, ordered = False)
             self.handle_ratings(reviews, ratings)
+            print("Inserted {} reviews".format(len(reviews)))
         except Exception as writeErrors:
             # If there are any errors writing the reviews, then we should
             # log the errors
@@ -106,6 +107,7 @@ class DBReviewController:
                 print(errmsg)
                 self.write_to_errorlog(errmsg, 'a')
             self.handle_ratings(reviews, ratings, failedWrites)
+            print("Inserted {} reviews".format(len(reviews) - len(writeErrors.details["writeErrors"])))
 
     # Helper function to update the ratings for the related animes
     def handle_ratings(self, reviews, ratings = None, failedWrites = set()):
