@@ -6,6 +6,6 @@ if __name__ == "__main__":
     db_controller = dbc.DBController()
     # db_controller = DBController()
 
-    anime_list = db_controller.get_animes()
+    anime_list = db_controller.animeDB.get_animes()
 
     print(anime_list)
