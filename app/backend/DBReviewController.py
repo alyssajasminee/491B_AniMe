@@ -1,6 +1,7 @@
 import pymongo
 import csv
 import json
+import datetime
 from backend.DBUserController import DBUserController
 
 a_id = "anime_id"
@@ -37,12 +38,12 @@ class DBReviewController:
 
     def write_to_errorlog(self, message, mode):
         with open(self.errorlog, mode) as log:
-            log.write("{}\n".format(message))
+            log.write("\n{}\n{}\n".format(datetime.datetime.now(), message))
 
     # Takes a csv file containing a dataset of anime ratings by users and inserts it
     # into the database as blank reviews
     # each row should contain user_id to anime_id plus a rating score
-    def import_csv_reviews(self, csv_path):
+    def import_csv_reviews(self, csv_path, batch_size = 10):
         with open (csv_path, encoding = 'UTF-8') as csv_file:
             csv_reader = csv.reader(csv_file, delimiter=',')
             index = 0
@@ -50,6 +51,8 @@ class DBReviewController:
             # maps anime ids to averages + num of reviews
             # this is so that we can update the rating on the animedb
             ratings = {}
+            # This is so we can send reviews in batches
+            reviews = []
             for row in csv_reader:
                 review = None
                 # If this is the first row, get the column names
@@ -66,53 +69,58 @@ class DBReviewController:
 
                 # if this is a review entry, insert it into the anime db
                 if (review != None and index > 0 and len(review) == len(column_names)):
-                    # If it was successfully inserted, then update the rating for the
-                    # relevant animes
-                    self.insert_review_to_db(review, ratings)
+                    reviews.append(review)
+
+                # Check if we should send this batch yet
+                if len(reviews) == batch_size:
+                    self.insert_reviews_to_db(reviews, ratings)
+                    # reset reviews
+                    reviews = []
+
+            # check if there are any leftover reviews to send
+            if len(reviews) > 0:
+                self.insert_reviews_to_db(reviews, ratings)
 
             self.update_rating(ratings)
 
     # Inserts a review into the database
-    def insert_review_to_db(self, review, ratings = None):
-        # End early if this review does not review any existing animes in the database
-        # log the ones that are not inserted
-        if self.db.anime.count_documents({a_id:review[a_id]}, limit = 1) == 0:
-            print("trying to review anime {} but it does not exist in the db".format(review[a_id]))
-            self.write_to_errorlog(review, 'a')
-            return False
-
-        try:
+    def insert_reviews_to_db(self, reviews, ratings = None):
+        for review in reviews:
             if desc_key not in review:
                 review[desc_key] = ""
             if title_key not in review:
                 review[title_key] = ""
 
-            self.db.review.insert_one(review)
-            print("User {} Submitted review of {} for anime {}".format(review[u_id], review[rating_key], review[a_id]))
-            # Otimization choice. For larger operations it is more efficient
-            # to provide this method with a ratings, that way we cut down
-            # on the number of calls to update_ratings which each time will make
-            # a call to the database
-            if ratings is None:
-                ratings = {}
-                self.build_ratings(review, ratings)
-                self.update_rating(ratings)
-            else:
-                self.build_ratings(review, ratings)
-            return True
-        except Exception as e:
-            # If there are any errors inserting the specified review, log and
-            # print it. Additionally checks to make sure this isn't a duplicated entry
-            # in which case it just ignores it
-            if (self.db.review.count_documents({u_id:review[u_id], a_id:review[a_id]}, limit = 1) == 0):
-                print("review for user {} for anime {} failed validation, writing to {}"
-                .format(review[u_id], review[a_id], self.errorlog))
-                self.write_to_errorlog(review, 'a')
-                return False
-            else:
-                print("user {} already has a review for anime {}"
-                .format(review[u_id], review[a_id]))
-                return False
+        try:
+            self.db.review.insert_many(reviews, ordered = False)
+            self.handle_ratings(reviews, ratings)
+        except Exception as writeErrors:
+            # If there are any errors writing the reviews, then we should
+            # log the errors
+            failedWrites = set()
+            for writeError in writeErrors.details["writeErrors"]:
+                index = writeError["index"]
+                failedWrites.add(index)
+                review = reviews[index]
+                errmsg = "User {} review for anime {} unsuccessfully inserted with message {}".format(review[u_id], review[a_id], writeError["errmsg"])
+                print(errmsg)
+                self.write_to_errorlog(errmsg, 'a')
+            self.handle_ratings(reviews, ratings, failedWrites)
+
+    # Helper function to update the ratings for the related animes
+    def handle_ratings(self, reviews, ratings = None, failedWrites = set()):
+        # Keep track of whether or not we should write this change
+        doWrite = ratings is None
+        if ratings is None:
+            ratings = {}
+        # Reviews that were successfully inserted should update the ratings
+        # for each anime
+        for i in range(0, len(reviews)):
+            if i not in failedWrites:
+                self.build_rating(reviews[i], ratings)
+
+        if doWrite:
+            self.update_rating(ratings)
 
     # Helper function that iterates through the ratings dictionary to update
     # the ratings for each anime stored inside
@@ -129,7 +137,7 @@ class DBReviewController:
                 self.db.anime.update(query, update)
 
     # Helper function that helps build the ratings dictionary
-    def build_ratings(self, review, ratings):
+    def build_rating(self, review, ratings):
         id = review[a_id]
         rating = [0, 0]
         if id in ratings:

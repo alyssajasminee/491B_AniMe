@@ -1,6 +1,7 @@
 import pymongo
 import csv
 import json
+import datetime
 
 a_id = "anime_id"
 title_key = "title"
@@ -68,33 +69,37 @@ class DBAnimeController:
         return anime
 
     # Takes an anime dictionary object and inserts it into the database
-    def insert_anime_to_db(self, anime):
-        try:
+    def insert_animes_to_db(self, animes):
+        for anime in animes:
             # inserted animes should always start with a rating of 0 since we
             # don't have any users who have rated it yet
             anime[rating_key] = 0
             # make calculating rating easier / less resource intensive
             anime[scoredby_key] = 0
-            self.db.anime.insert_one(anime)
-            return True
-        except Exception as e:
-            # If there are any errors inserting the specified anime, log and
-            # print it
-            if (self.db.anime.count_documents({a_id:anime[a_id]}, limit = 1) == 0):
-                print("anime {} failed validation, writing to {}".format(anime[title_key], self.errorlog))
-                self.write_to_errorlog(anime, 'a')
-                return False
+
+        try:
+            self.db.anime.insert_many(animes, ordered = False)
+        except Exception as writeErrors:
+            # If there are any errors writing the reviews, then we should
+            # log the errors
+            for writeError in writeErrors.details["writeErrors"]:
+                index = writeError["index"]
+                anime = animes[index]
+                errmsg = "anime {} with title {} unsuccessfully inserted with message {}".format(anime[a_id], anime[title_key], writeError["errmsg"])
+                print(errmsg)
+                self.write_to_errorlog(errmsg, 'a')
 
     def write_to_errorlog(self, message, mode):
         with open(self.errorlog, mode) as log:
-            log.write("{}\n".format(message))
+            log.write("\n{}\n{}\n".format(datetime.datetime.now(), message))
 
     # Takes a csv file containing a dataset of animes and inserts it into the database
-    def import_csv_animes(self, csv_path):
+    def import_csv_animes(self, csv_path, batch_size = 10):
         with open (csv_path, encoding = 'UTF-8') as csv_file:
             csv_reader = csv.reader(csv_file, delimiter=',')
             index = 0
             column_names = []
+            animes = []
             for row in csv_reader:
                 anime = None
                 # If this is the first row, get the column names
@@ -106,4 +111,10 @@ class DBAnimeController:
 
                 # if this is an anime entry, insert it into the anime db
                 if (anime != None and index > 0 and len(anime) == len(column_names)):
-                    self.insert_anime_to_db(anime)
+                    animes.append(anime)
+
+                if len(animes) == batch_size:
+                    self.insert_animes_to_db(animes)
+                    animes = []
+            # After we are done reading the batch, send whatever is leftover
+            self.insert_animes_to_db(animes)
