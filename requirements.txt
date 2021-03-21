@@ -3,3 +3,7 @@ Flask-Testing
 nose
 pymongo
 'pymongo[srv]'
+numpy
+pandas
+jupyter
+dnspython
