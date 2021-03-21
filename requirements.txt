@@ -3,14 +3,7 @@ Flask-Testing
 nose
 pymongo
 'pymongo[srv]'
-pytorch
 numpy
 pandas
 jupyter
 dnspython
-matplotlib
-scikit-learn
-h5py
-yaml
-tqdm
-scikit-learn
