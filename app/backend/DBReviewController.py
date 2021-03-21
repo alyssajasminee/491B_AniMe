@@ -17,6 +17,9 @@ class DBReviewController:
         self.client = client
         self.db = db
 
+    def get_reviews(self):
+        return self.db.review
+
     # Debug function to remove all listed animes
     def drop_reviews(self):
         deleteCount = self.db.review.delete_many({})
