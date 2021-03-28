@@ -9,7 +9,7 @@
   </div>
 </template>
 
-<style>
+<style scoped>
 #header{
   margin-top: 15%;
   opacity: 1;
@@ -17,7 +17,6 @@
 }
 #pic-back::before{
   top:0;
-  top: 0;
   right: 0;
   left: 0;
   content: '';
