@@ -1,31 +1,19 @@
 <template>
-  <div>
-    
-    <h1 class="h2">Welcome, {{$auth.user.name}}!</h1>
+  <div class="buttons">
+    <button id="create-asccount"
+    class="btn btn-secondary border-secondary mt-5 btn-outline-light rounded-pill mx-auto">
+    <a>Create Account</a>
+    </button>
+    <button id="sign up"
+    class="btn btn-secondary border-secondary my-5 btn-outline-light rounded-pill mx-auto">
+    <a href="/signin">Sign In</a>
+    </button>
  </div>
 </template>
 
 <script>
-import axios from 'axios';
 export default {
-    name: 'HomeView',
-    mounted() {
-      this.$nextTick(() => {
-        this.User();
-      });
-    },
-    methods: {
-      User(){
-        var e = this.$auth.user.email
-        const path = `http://localhost:5000/AddUser?email=${e}`
-        axios.get(path,{})
-      
-
-      },
-    },
-    created(){
-      this.User()
-    }
+  name: 'HomeView',
 };
 </script>
 
