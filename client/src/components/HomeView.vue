@@ -6,7 +6,7 @@
     </button>
     <button id="sign up"
     class="btn btn-secondary border-secondary my-5 btn-outline-light rounded-pill mx-auto">
-    <a>Sign up</a>
+    <a href="/signin">Sign In</a>
     </button>
  </div>
 </template>
@@ -25,5 +25,11 @@ button{
 .buttons{
   display:flex;
   flex-direction: column;
+}
+a:hover{
+color:black
+}
+a{
+color:white
 }
 </style>
