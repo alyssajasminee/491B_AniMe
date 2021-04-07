@@ -9,9 +9,8 @@
     </div>
     <div id="navbar" class="navbar-menu">
       <div class="navbar-start">
-        <router-link v-if="$auth.isAuthenticated" to="/user/lists" class="navbar-item h2">My List</router-link>
-        <router-link v-if="$auth.isAuthenticated" to="/genres" class="navbar-item h2">Genres</router-link>
-        <router-link v-if="$auth.isAuthenticated" class="navbar-item h2" to="/profile">Profile</router-link>
+        <router-link to="/" class="navbar-item">Home</router-link>
+        <router-link v-if="$auth.isAuthenticated" class="navbar-item" to="/profile">Profile</router-link>
       </div>
       <div class="navbar-end">
         <div class="navbar-item">
@@ -19,15 +18,14 @@
             <!-- Check that the SDK client is not currently loading before accessing is methods -->
             <div v-if="!$auth.loading">
               <!-- show login when not authenticated -->
-              <a v-if="!$auth.isAuthenticated" @click="login" class="button is-dark rounded-pill px-5 h2 h-auto "><strong class="h3 mb-1 font-weight-bold">Sign In</strong></a>
+              <a v-if="!$auth.isAuthenticated" @click="login" class="button is-dark"><strong>Sign in</strong></a>
               <!-- show logout when authenticated -->
-              <a v-if="$auth.isAuthenticated" @click="logout" class="button is-dark rounded-pill px-5 h2 h-auto "><strong class="h3 mb-1 font-weight-bold">Log Out</strong></a>
+              <a v-if="$auth.isAuthenticated" @click="logout" class="button is-dark"><strong>Log out</strong></a>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <hr v-if="$auth.isAuthenticated" class="nav-bottom">
   </nav>
 </template>
 <script>
@@ -51,7 +49,6 @@
   nav {
     margin-top: 25px;
     margin-bottom: 30px;
-    background: inherit;
     a
 
   {
@@ -64,13 +61,5 @@
   }
 
   }
-  }
-  hr.nav-bottom{
-  border-bottom: 5px solid black;
-  width: 100%;
-  margin: 0;
-  }
-  .navbar{
-    flex-wrap:wrap;
   }
 </style>

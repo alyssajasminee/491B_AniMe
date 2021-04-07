@@ -1,39 +1,37 @@
 <template>
     <div class="user-info">
-        <h2 class="h2"><strong>Email:</strong> {{this.$auth.user.email}}</h2>
-        <h2 class="h2"><strong>Name:</strong> {{name}}</h2>
-        <button class="btn btn-secondary rounded-pill font-weight-bold px-5" @click="$router.push('edit-profile')">Edit</button>
+        <img :src="user[0].picture" :alt="user.name" style="width:100px;margin-left:auto;margin-right:auto;" />
+        <h1>Email: {{user[0].email}}</h1>
+        <h1>Nickname: {{user[0].nickname}}</h1>
+        <h1>Name: {{user[0].name}}</h1>
+        <h1>ID: {{user[0].user_id}}</h1>
+        <button @click="$router.push('edit-profile')">Edit</button>
     </div>
 </template>
 
 <script>
-import axios from 'axios';
-    
+    import editProfileService from '../services/EditProfileService.js';
     export default {
         name: "userprofile",
-        
         data() {
             return {
-                user: {},
-                name:'',
+                user: {}
             }
         },
         created() {
-       
-            this.userName();
-            
+            console.log(editProfileService.getUserByEmail);
+            this.getUser();
         },
         methods: {
-            userName(){
-            var e = this.$auth.user.name
-            const path = `http://localhost:5000/userName?email=${e}`;
-            axios.get(path)
-                .then((response) => {
-                this.name = response.data;
-                });
-
-            },
-            
+            async getUser() {
+                const email = await this.$auth.user.email;
+                editProfileService.getUserByEmail(email)
+                    .then(
+                        (user => {
+                            this.$set(this, "user", user);
+                        }).bind(this)
+                    );
+            }
         }
     }
 </script>
