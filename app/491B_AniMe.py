@@ -61,8 +61,16 @@ def iD(animeId):
 	"episodes" : u["episodes"], "aired" : u["aired"]}]
 	return jsonify(output)
 
+@app.route('/addAnime/<int:id>', methods=['GET','PATCH','OPTIONS'])
+def addAnime(id):
+	users.update({"Username":"acervantes"},{ '$addToSet': {"AnimeList": id}})
+	return str(id)
 
 
+@app.route('/RemoveAnime/<int:id>', methods=['GET','PATCH','OPTIONS'])
+def RemoveAnime(id):
+	users.update({"Username":"acervantes"},{'$pull':{"AnimeList": id}})
+	return str(id)
 
 if __name__ == '__main__':
 	app.run()  # Run our application

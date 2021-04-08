@@ -49,6 +49,7 @@
   nav {
     margin-top: 25px;
     margin-bottom: 30px;
+    background: inherit;
     a
 
   {
