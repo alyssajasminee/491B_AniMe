@@ -29,7 +29,7 @@
     <div class="modal-content" v-for="(d,index) in details" :key="index">
       <button  @click="close()" class=" close btn text-right">x</button>
       
-        <div class="row my-5 mx-1 d-block">
+        <div class="row my-5 mx-1">
         <div>
           <h3 class="h3"><strong>{{d.title}}</strong></h3>
           <p><strong>{{d.type}}</strong></p>
@@ -186,7 +186,46 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+/* The Modal (background) */
+#myModal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
 
+/* Modal Content */
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 45%;
+  text-align:left;
+}
+
+/* The Close Button */
+.close {
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  
+}
+
+.close:hover,
+.close:focus,
+.edit-list:hover {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+  }
 #app{
   background-color: hsl(224, 19%, 44%);
   height:auto;

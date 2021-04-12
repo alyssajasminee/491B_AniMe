@@ -1,13 +1,6 @@
 <template>
   <div class="buttons">
-    <button id="create-account" @click="login" v-if="!$auth.isAuthenticated"
-    class="btn btn-secondary border-secondary mt-5 btn-outline-light rounded-pill mx-auto">
-    <a>Create Account</a>
-    </button>
-    <button id="sign up" @click="login" v-if="!$auth.isAuthenticated"
-    class="btn btn-secondary border-secondary my-5 btn-outline-light rounded-pill mx-auto">
-    <a href="/signin">Sign In</a>
-    </button>
+    
     <h1 v-if="$auth.isAuthenticated">Welcome, {{$auth.user.name}}!</h1>
  </div>
 </template>
