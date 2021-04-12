@@ -19,9 +19,10 @@ class DBReviewController:
 
     # Function that builds the document for inserting into the database as opposed
     # to having to make it ourselves
-    def add_review(self, user_id, rating, description="", title=""):
+    def add_review(self, user_id, anime_id, rating, description="", title=""):
         review = {}
         review[u_id] = user_id
+        review[a_id] = anime_id
         review[rating_key] = rating
         review[desc_key] = description
         review[title_key] = title
