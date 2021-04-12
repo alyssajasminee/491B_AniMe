@@ -17,6 +17,17 @@ class DBReviewController:
         self.client = client
         self.db = db
 
+    # Function that builds the document for inserting into the database as opposed
+    # to having to make it ourselves
+    def add_review(self, user_id, rating, description="", title=""):
+        review = {}
+        review[u_id] = user_id
+        review[rating_key] = rating
+        review[desc_key] = description
+        review[title_key] = title
+
+        self.insert_reviews_to_db([review])
+
     # Debug function to remove all listed animes
     def drop_reviews(self):
         deleteCount = self.db.review.delete_many({})
