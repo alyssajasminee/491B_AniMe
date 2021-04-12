@@ -1,13 +1,13 @@
 <template>
   <div class="main-background p-5" >
     
-    <MyList />
+    <Genres />
    
   </div>
 </template>
 
 <style scoped>
-html body{
+body{
   background-color: hsl(224, 19%, 44%);
   height:auto;
   position: absolute;
@@ -20,13 +20,13 @@ html body{
 
 <script>
 // @ is an alias to /src
-import MyList from '@/components/MyList.vue';
+import Genres from '@/components/Genres.vue';
 
 
 export default {
-  name: 'Lists',
+  name: 'GenreView',
   components: {
-    MyList,
+    Genres,
   },
 };
 </script>
