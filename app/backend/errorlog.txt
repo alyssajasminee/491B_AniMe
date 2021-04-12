@@ -1,0 +1,138 @@
+
+2021-04-10 19:00:01.959341
+User 1 review for anime 1 unsuccessfully inserted with message E11000 duplicate key error collection: app.review index: aid_uid_pkey dup key: { anime_id: 1, user_id: "1" }
+
+2021-04-10 19:00:03.556507
+User 1 review for anime 1 unsuccessfully inserted with message E11000 duplicate key error collection: app.review index: aid_uid_pkey dup key: { anime_id: 1, user_id: "1" }
+
+2021-04-10 19:02:20.092813
+User 1 review for anime 1 unsuccessfully inserted with message Document failed validation
+
+2021-04-10 19:02:20.093312
+User 1 review for anime 1 unsuccessfully inserted with message Document failed validation
+
+2021-04-10 19:02:20.093813
+User 1 review for anime 5 unsuccessfully inserted with message Document failed validation
+
+2021-04-10 19:02:20.095312
+User 3 review for anime 1 unsuccessfully inserted with message Document failed validation
+
+2021-04-10 19:02:20.095812
+User 4 review for anime 1 unsuccessfully inserted with message Document failed validation
+
+2021-04-10 19:02:20.096312
+User 5 review for anime 1 unsuccessfully inserted with message Document failed validation
+
+2021-04-10 19:02:20.096812
+User 6 review for anime 1 unsuccessfully inserted with message Document failed validation
+
+2021-04-10 19:02:20.097312
+User 7 review for anime 1 unsuccessfully inserted with message Document failed validation
+
+2021-04-10 19:02:20.097312
+User 8 review for anime 1 unsuccessfully inserted with message Document failed validation
+
+2021-04-10 19:02:20.097812
+User 9 review for anime 1 unsuccessfully inserted with message Document failed validation
+
+2021-04-10 19:02:20.098312
+User 9 review for anime 3 unsuccessfully inserted with message Document failed validation
+
+2021-04-10 19:02:26.859959
+User 1 review for anime 1 unsuccessfully inserted with message Document failed validation
+
+2021-04-10 19:02:26.860959
+User 1 review for anime 1 unsuccessfully inserted with message Document failed validation
+
+2021-04-10 19:02:26.861459
+User 1 review for anime 5 unsuccessfully inserted with message Document failed validation
+
+2021-04-10 19:02:26.861960
+User 3 review for anime 1 unsuccessfully inserted with message Document failed validation
+
+2021-04-10 19:02:26.861960
+User 4 review for anime 1 unsuccessfully inserted with message Document failed validation
+
+2021-04-10 19:02:26.862460
+User 5 review for anime 1 unsuccessfully inserted with message Document failed validation
+
+2021-04-10 19:02:26.862961
+User 6 review for anime 1 unsuccessfully inserted with message Document failed validation
+
+2021-04-10 19:02:26.863460
+User 7 review for anime 1 unsuccessfully inserted with message Document failed validation
+
+2021-04-10 19:02:26.863960
+User 8 review for anime 1 unsuccessfully inserted with message Document failed validation
+
+2021-04-10 19:02:26.863960
+User 9 review for anime 1 unsuccessfully inserted with message Document failed validation
+
+2021-04-10 19:02:26.864547
+User 9 review for anime 3 unsuccessfully inserted with message Document failed validation
+
+2021-04-10 19:03:00.255208
+User 1 review for anime 1 unsuccessfully inserted with message E11000 duplicate key error collection: app.review index: aid_uid_pkey dup key: { anime_id: 1, user_id: 1 }
+
+2021-04-10 19:03:25.949888
+User 1 review for anime 1 unsuccessfully inserted with message E11000 duplicate key error collection: app.review index: aid_uid_pkey dup key: { anime_id: 1, user_id: 1 }
+
+2021-04-10 19:03:27.360897
+User 1 review for anime 1 unsuccessfully inserted with message E11000 duplicate key error collection: app.review index: aid_uid_pkey dup key: { anime_id: 1, user_id: 1 }
+
+2021-04-10 19:04:50.539256
+User 1 review for anime 1 unsuccessfully inserted with message E11000 duplicate key error collection: app.review index: aid_uid_pkey dup key: { anime_id: 1, user_id: 1 }
+
+2021-04-10 19:04:51.961579
+User 1 review for anime 1 unsuccessfully inserted with message E11000 duplicate key error collection: app.review index: aid_uid_pkey dup key: { anime_id: 1, user_id: 1 }
+
+2021-04-10 19:05:14.624604
+User 1 review for anime 1 unsuccessfully inserted with message E11000 duplicate key error collection: app.review index: aid_uid_pkey dup key: { anime_id: 1, user_id: 1 }
+
+2021-04-10 19:05:16.158998
+User 1 review for anime 1 unsuccessfully inserted with message E11000 duplicate key error collection: app.review index: aid_uid_pkey dup key: { anime_id: 1, user_id: 1 }
+
+2021-04-10 19:05:32.958358
+User 1 review for anime 1 unsuccessfully inserted with message E11000 duplicate key error collection: app.review index: aid_uid_pkey dup key: { anime_id: 1, user_id: 1 }
+
+2021-04-10 19:28:32.211691
+User 42653 review for anime 1575 unsuccessfully inserted with message E11000 duplicate key error collection: app.review index: aid_uid_pkey dup key: { anime_id: 1575, user_id: 42653 }
+
+2021-04-10 19:28:32.212191
+User 42653 review for anime 2001 unsuccessfully inserted with message E11000 duplicate key error collection: app.review index: aid_uid_pkey dup key: { anime_id: 2001, user_id: 42653 }
+
+2021-04-10 19:28:32.212191
+User 42653 review for anime 11757 unsuccessfully inserted with message E11000 duplicate key error collection: app.review index: aid_uid_pkey dup key: { anime_id: 11757, user_id: 42653 }
+
+2021-04-10 19:28:32.212691
+User 42653 review for anime 16498 unsuccessfully inserted with message E11000 duplicate key error collection: app.review index: aid_uid_pkey dup key: { anime_id: 16498, user_id: 42653 }
+
+2021-04-10 19:28:32.213191
+User 42653 review for anime 20507 unsuccessfully inserted with message E11000 duplicate key error collection: app.review index: aid_uid_pkey dup key: { anime_id: 20507, user_id: 42653 }
+
+2021-04-10 19:28:32.213690
+User 42653 review for anime 22319 unsuccessfully inserted with message E11000 duplicate key error collection: app.review index: aid_uid_pkey dup key: { anime_id: 22319, user_id: 42653 }
+
+2021-04-10 19:28:32.214191
+User 42653 review for anime 23283 unsuccessfully inserted with message E11000 duplicate key error collection: app.review index: aid_uid_pkey dup key: { anime_id: 23283, user_id: 42653 }
+
+2021-04-10 20:29:38.573646
+User 42653 review for anime 1575 unsuccessfully inserted with message E11000 duplicate key error collection: app.review index: aid_uid_pkey dup key: { anime_id: 1575, user_id: 42653 }
+
+2021-04-10 20:29:38.574147
+User 42653 review for anime 2001 unsuccessfully inserted with message E11000 duplicate key error collection: app.review index: aid_uid_pkey dup key: { anime_id: 2001, user_id: 42653 }
+
+2021-04-10 20:29:38.574646
+User 42653 review for anime 11757 unsuccessfully inserted with message E11000 duplicate key error collection: app.review index: aid_uid_pkey dup key: { anime_id: 11757, user_id: 42653 }
+
+2021-04-10 20:29:38.575147
+User 42653 review for anime 16498 unsuccessfully inserted with message E11000 duplicate key error collection: app.review index: aid_uid_pkey dup key: { anime_id: 16498, user_id: 42653 }
+
+2021-04-10 20:29:38.575647
+User 42653 review for anime 20507 unsuccessfully inserted with message E11000 duplicate key error collection: app.review index: aid_uid_pkey dup key: { anime_id: 20507, user_id: 42653 }
+
+2021-04-10 20:29:38.576148
+User 42653 review for anime 22319 unsuccessfully inserted with message E11000 duplicate key error collection: app.review index: aid_uid_pkey dup key: { anime_id: 22319, user_id: 42653 }
+
+2021-04-10 20:29:38.576647
+User 42653 review for anime 23283 unsuccessfully inserted with message E11000 duplicate key error collection: app.review index: aid_uid_pkey dup key: { anime_id: 23283, user_id: 42653 }
