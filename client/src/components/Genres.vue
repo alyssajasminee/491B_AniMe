@@ -1,19 +1,28 @@
 <template>
 <div>
-  <div   id="mypicks" ref="mypicks" class="my_list">
-    <h2  class="text-left pb-4 display-4 font-weight-bold"> {{name}}'s Picks</h2>
-    <div  class="d-flex flex-wrap">
-      <div  class="list-card" v-for="(show, index) in mylist" :key="index"
-      :id="show.anime_id" @click="animeModal(show.anime_id)">
-      <div class="justify-content-center">
-        <h5 class="py-3">{{show.title}}</h5>
-        <h6 class="pb-3">{{show.type}}</h6>
-      </div>
-      </div>
-    </div>
+
+ <div class="genre buttons">
+     <button class="mx-4 my-3 px-5 btn btn-secondary rounded-pill font-weight-bold " v-for="(g,index) in genres" :key="index" @click="openGenre(g)">
+         {{g}}
+     </button>
  </div>
- <div>
-  
+
+
+
+  <section class="my_list p-0" v-for="(name,show,index) in glist" :key="index">
+      <div  class="genreRows d-none py-5 px-2" v-for="(id,index) in name" :key="index" :id="index" >
+          <h2  class="text-left pb-4 display-4 font-weight-bold">{{index}}</h2>
+          <div class="d-flex flex-wrap">
+              <div class="list-card margin-auto" v-for="item in id" :key="item.anime_id"
+               @click="animeModal(item.anime_id)">
+                <div class=" p-2 m-auto">
+                  <h5 class="h6 font-weight-bold py-3">{{item.title}}</h5>
+                  <h6 class="font-weight-bold pb-3">{{item.type}}</h6>
+                </div>
+              </div>
+          </div>
+      </div>
+  </section>
   <div id="myModal" ref="myModal" class="modal">
 
     <!-- Modal content -->
@@ -50,7 +59,7 @@
     </div>
   </div>
 </div>
-</div>
+
 </template>
 
 <script>
@@ -58,40 +67,55 @@
 import axios from 'axios';
 
 export default {
-  name: 'MyList',
+  name: 'Genres',
   data() {
     return {
+        genres: ['Action','Adventure','Cars','Comedy','Dementia','Demons','Drama','Ecchi','Fantasy','Game','Harem','Hentai','Historical','Horror',
+'Josei','Kids','Magic','Martial Arts','Mecha','Military','Music','Mystery','Parody','Police','Psychological','Romance','Samurai',
+'School','Sci-Fi','Seinen','Shoujo','Shoujo Ai','Shounen','Shounen Ai','Slice of Life','Space','Sports','Super Power',
+'Supernatural','Thriller','Vampire','Yaoi','Yuri'],
       mylist: [],
-      
+      glist: [],
       details: [],
       inlist: false,
       rated: false,
       rating: 10,
       name:'',
-      id: 0 
+      id: 0,
+      open:'',
     };
   },
   methods: {
-    userName(){
-      var e = this.$auth.user.name
-      const path = `http://localhost:5000/userName?email=${e}`;
-      axios.get(path)
-        .then((response) => {
-          this.name = response.data;
-        });
 
-    },
+
     getAnimes() {
       
       var e = this.$auth.user.name
-      console.log(e)
       const path = `http://localhost:5000/mypicks?email=${e}`;
       axios.get(path)
         .then((response) => {
           this.mylist = response.data;
         });
     },
-    
+    getGenres() {
+      const path = 'http://localhost:5000/genres';
+      axios.get(path)
+        .then((response) => {
+          this.glist = response.data;
+        });
+    },
+
+    openGenre(g){
+        var element = document.getElementById(g);
+        if (element.classList.contains("d-none")) {
+            element.classList.remove("d-none");
+        } else {
+            element.classList.add("d-none");
+        }
+    },
+
+
+
     animeModal(id) {
       this.rated = false
       const path1 = `http://localhost:5000/anime/${id}`;
@@ -154,7 +178,8 @@ export default {
   },
   created() {
     this.getAnimes();
-    this.userName();
+    this.getGenres();
+    
   },
 };
 </script>
@@ -207,4 +232,5 @@ export default {
   position: absolute;
   width:100%;
 }
+
 </style>

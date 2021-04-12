@@ -9,7 +9,8 @@
     </div>
     <div id="navbar" class="navbar-menu">
       <div class="navbar-start">
-        <router-link to="/" class="navbar-item">Home</router-link>
+        <router-link v-if="$auth.isAuthenticated" to="/user/lists" class="navbar-item">My List</router-link>
+        <router-link v-if="$auth.isAuthenticated" to="/genres" class="navbar-item">Genres</router-link>
         <router-link v-if="$auth.isAuthenticated" class="navbar-item" to="/profile">Profile</router-link>
       </div>
       <div class="navbar-end">

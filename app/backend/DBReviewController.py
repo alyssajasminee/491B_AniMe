@@ -17,6 +17,18 @@ class DBReviewController:
         self.client = client
         self.db = db
 
+    # Function that builds the document for inserting into the database as opposed
+    # to having to make it ourselves
+    def add_review(self, user_id, anime_id, rating, description="", title=""):
+        review = {}
+        review[u_id] = user_id
+        review[a_id] = anime_id
+        review[rating_key] = rating
+        review[desc_key] = description
+        review[title_key] = title
+
+        self.insert_reviews_to_db([review])
+
     # Debug function to remove all listed animes
     def drop_reviews(self):
         deleteCount = self.db.review.delete_many({})
@@ -140,6 +152,11 @@ class DBReviewController:
 
     # Helper function that helps build the ratings dictionary
     def build_rating(self, review, ratings):
+        # Early return if review being inserted has a rating of -1 aka user
+        # has watched but hasn't reviewed this anime
+        if review[rating_key] < 0:
+            return
+
         id = review[a_id]
         rating = [0, 0]
         if id in ratings:
@@ -158,10 +175,7 @@ class DBReviewController:
         review = {}
 
         for i in range(0, len(row)):
-            if column_names[i] == u_id:
-                review[column_names[i]] = row[i]
-            else:
-                review[column_names[i]] = self.as_number(row[i])
+            review[column_names[i]] = self.as_number(row[i])
 
         return review
 
