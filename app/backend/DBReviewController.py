@@ -33,15 +33,12 @@ class DBReviewController:
         self.insert_reviews_to_db([review])
 
     # Function to find reviews for an anime
-    def find_reviews(self, anime_id, min_rating=None, max_rating=None, size=10):
+    def find_reviews(self, anime_id, min_rating=0, max_rating=None, size=10):
         query = {}
         query[a_id] = anime_id
+        query[rating_key] = {}
 
-        if min_rating or max_rating is not None:
-            query[rating_key] = {}
-
-        if min_rating is not None:
-            query[rating_key]["$gt"] = min_rating
+        query[rating_key]["$gt"] = min_rating
 
         if max_rating is not None:
             query[rating_key]["$lt"] = max_rating

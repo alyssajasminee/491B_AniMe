@@ -33,6 +33,25 @@ class DBAnimeController:
     def get_animes(self):
         return self.db.anime
 
+    def find_anime_by_popularity(self, min_popularity=0, max_popularity=None, min_rating=0, max_rating=None, size=10):
+        query = {}
+        query[popularity_key] = {}
+        query[rating_key] = {}
+
+        query[popularity_key]["$gt"] = min_popularity
+        query[rating_key]["$gt"] = min_rating
+
+        if max_popularity is not None:
+            query[popularity_key]["$lt"] = max_popularity
+        if max_rating is not None:
+            query[rating_key]["$lt"] = max_rating
+
+        anime = []
+        for doc in self.get_animes().find(query, limit = size):
+            anime.append(doc)
+
+        return anime
+
     # Helper method that attempts to return the given string as a number
     # It starts off with turning it into an int, then a double, and then a string
     # if all else fails
