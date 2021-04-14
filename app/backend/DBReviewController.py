@@ -37,14 +37,14 @@ class DBReviewController:
         query = {}
         query[a_id] = anime_id
 
-        if min_rating and max_rating is not None:
+        if min_rating or max_rating is not None:
             query[rating_key] = {}
 
         if min_rating is not None:
-            query[rating_key]["$lt"] = min_rating
+            query[rating_key]["$gt"] = min_rating
 
         if max_rating is not None:
-            query[rating_key]["$gt"] = max_rating
+            query[rating_key]["$lt"] = max_rating
 
         # make it so that we only find ratings that contain title and description
         query[title_key] = {"$ne":""}
