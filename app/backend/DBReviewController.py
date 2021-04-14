@@ -17,6 +17,9 @@ class DBReviewController:
         self.client = client
         self.db = db
 
+    def get_reviews(self):
+        return self.db.review
+
     # Function that builds the document for inserting into the database as opposed
     # to having to make it ourselves
     def add_review(self, user_id, anime_id, rating, description="", title=""):
@@ -28,6 +31,30 @@ class DBReviewController:
         review[title_key] = title
 
         self.insert_reviews_to_db([review])
+
+    # Function to find reviews for an anime
+    def find_reviews(self, anime_id, min_rating=None, max_rating=None, size=10):
+        query = {}
+        query[a_id] = anime_id
+
+        if min_rating and max_rating is not None:
+            query[rating_key] = {}
+
+        if min_rating is not None:
+            query[rating_key]["$lt"] = min_rating
+
+        if max_rating is not None:
+            query[rating_key]["$gt"] = max_rating
+
+        # make it so that we only find ratings that contain title and description
+        query[title_key] = {"$ne":""}
+        query[desc_key] = {"$ne":""}
+
+        res = []
+        for doc in self.get_reviews().find(query, limit=size):
+            res.append(doc)
+
+        return res
 
     # Debug function to remove all listed animes
     def drop_reviews(self):
