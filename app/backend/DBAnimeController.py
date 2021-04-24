@@ -33,10 +33,21 @@ class DBAnimeController:
     def get_animes(self):
         return self.db.anime
 
-    def find_anime_by_popularity(self, min_popularity=0, max_popularity=None, min_rating=0, max_rating=None, size=10):
+    def find_anime(self, title="", genre=[], min_popularity=0, max_popularity=None, min_rating=0, max_rating=None, size=10):
         query = {}
+
+        # Handles title searching
+        query[title_key] = {"$regex" : title}
+        query[title_key]["$options"] = "i" # Make title case insensitive
+
+        # Handles genre filtering
+        if len(genre) > 0:
+            query[genre_key] = {"$all" : genre}
+
+        # handles popularity and rating filtering
         query[popularity_key] = {}
         query[rating_key] = {}
+
 
         query[popularity_key]["$gt"] = min_popularity
         query[rating_key]["$gt"] = min_rating
