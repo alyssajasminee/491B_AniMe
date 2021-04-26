@@ -1,19 +1,31 @@
 <template>
-  <div class="buttons">
-    <button id="create-asccount"
-    class="btn btn-secondary border-secondary mt-5 btn-outline-light rounded-pill mx-auto">
-    <a>Create Account</a>
-    </button>
-    <button id="sign up"
-    class="btn btn-secondary border-secondary my-5 btn-outline-light rounded-pill mx-auto">
-    <a>Sign up</a>
-    </button>
+  <div>
+    
+    <h1 class="h2">Welcome, {{$auth.user.name}}!</h1>
  </div>
 </template>
 
 <script>
+import axios from 'axios';
 export default {
-  name: 'HomeView',
+    name: 'HomeView',
+    mounted() {
+      this.$nextTick(() => {
+        this.User();
+      });
+    },
+    methods: {
+      User(){
+        var e = this.$auth.user.email
+        const path = `http://localhost:5000/AddUser?email=${e}`
+        axios.get(path,{})
+      
+
+      },
+    },
+    created(){
+      this.User()
+    }
 };
 </script>
 
@@ -25,5 +37,11 @@ button{
 .buttons{
   display:flex;
   flex-direction: column;
+}
+a:hover{
+color:black
+}
+a{
+color:white
 }
 </style>
