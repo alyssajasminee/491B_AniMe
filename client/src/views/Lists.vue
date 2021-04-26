@@ -1,17 +1,15 @@
 <template>
-  <div class="main-background p-5" >
+  <div class="main-background p-5 m-5" >
     
     <MyList />
    
   </div>
 </template>
 
-<style scoped>
-html body{
-  background-color: hsl(224, 19%, 44%);
-  height:auto;
-  position: absolute;
-  width:100%;
+<style>
+html{
+  background-color: hsl(218.24, 87.39%, 92.07%) !important;
+  
 }
 .btn.user-info{
   height:50px;
