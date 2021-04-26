@@ -4,9 +4,10 @@
         margin: 10px 30px;
         border-radius: 25px;
         border: solid;
-        background-color: #f5f5dc;
+        background-color: #b1c4f2;
         text-align: center;
         box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+        display: flex
     }
     
     .list-card:hover {
@@ -24,4 +25,54 @@
     
     .my_list {
         padding: 70px 0;
+    }
+    
+    #myModal {
+        display: none;
+        /* Hidden by default */
+        position: fixed;
+        /* Stay in place */
+        z-index: 1;
+        /* Sit on top */
+        padding-top: 100px;
+        /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%;
+        /* Full width */
+        height: 100%;
+        /* Full height */
+        overflow: auto;
+        /* Enable scroll if needed */
+        background-color: rgb(0, 0, 0);
+        /* Fallback color */
+        background-color: rgba(0, 0, 0, 0.4);
+        /* Black w/ opacity */
+    }
+    /* Modal Content */
+    
+    .modal-content {
+        background-color: #e7e9fe;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 45%;
+        text-align: left;
+    }
+    /* The Close Button */
+    
+    .close {
+        font-size: 28px;
+        font-weight: bold;
+        width: auto;
+        position: absolute;
+        right: 37px;
+    }
+    
+    .close:hover,
+    .close:focus,
+    .edit-list:hover {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
     }

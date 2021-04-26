@@ -1,18 +1,30 @@
 <template>
-  <div class="buttons">
+  <div>
     
-    <h1 v-if="$auth.isAuthenticated">Welcome, {{$auth.user.name}}!</h1>
+    <h1 class="h2">Welcome, {{$auth.user.name}}!</h1>
  </div>
 </template>
 
 <script>
+import axios from 'axios';
 export default {
     name: 'HomeView',
+    mounted() {
+      this.$nextTick(() => {
+        this.User();
+      });
+    },
     methods: {
-      login() {
-        console.log(this.$auth);
-          this.$auth.loginWithRedirect();
-      } 
+      User(){
+        var e = this.$auth.user.email
+        const path = `http://localhost:5000/AddUser?email=${e}`
+        axios.get(path,{})
+      
+
+      },
+    },
+    created(){
+      this.User()
     }
 };
 </script>
