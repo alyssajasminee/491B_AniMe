@@ -35,7 +35,6 @@ def genres():
 	for j in genres:
 		g=animes.find({"genre":j}).limit(35)
 		output=[]
-		myDocument = g.next() if g.next() else NULL
 		i = 0
 		for i in g:
 			
@@ -122,6 +121,42 @@ def FindReview():
 		return jsonify(0)
 
 	return jsonify(r["rating"])
+
+
+
+
+#ADD USER TO MOONGODB
+@app.route('/AddUser', methods=['GET','POST'])
+def addUser():
+	email = request.args.get('email')
+	u = users.find_one({"Email": email})
+	name = email.split('@')[0]
+	user_id = 562843 + users.count()
+	if u == None and email != "undefined":
+		users.insert_one({"Email": email, "Username": name,"AnimeList": [], "Type": "User","user_id":user_id})
+		return jsonify("User added")
+	return jsonify("Exists already or undefined")
+
+#EDIT USER TO MOONGODB
+@app.route('/EditUser', methods=['GET','PATCH','OPTIONS'])
+def EditUser():
+	email = request.args.get('email')
+	editUsername = request.args.get('username')
+	
+	users.update_one({"Email":email},{'$set': { "Username": editUsername}})
+		
+	return jsonify(editUsername)
+
+#DELETE USER TO MOONGODB
+@app.route('/DeleteUser', methods=['GET','DELETE'])
+def deleteUser():
+	email = request.args.get('email')
+	user_id = users.find_one({"Email": email})["user_id"]
+	users.delete_one({"user_id":user_id})
+	review.delete_many({"user_id":user_id})
+	return jsonify(email +" has been deleted")
+
+
 
 if __name__ == '__main__':
 	app.run()  # Run our application
