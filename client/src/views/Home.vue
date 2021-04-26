@@ -5,7 +5,9 @@
       </h1>
       <h2> Explore and find new animes. </h2>
     </div>
+    <div v-if="$auth.isAuthenticated">
     <HomeView/>
+    </div>
   </div>
 </template>
 
