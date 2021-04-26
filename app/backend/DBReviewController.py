@@ -20,6 +20,39 @@ class DBReviewController:
     def get_reviews(self):
         return self.db.review
 
+    # Function that builds the document for inserting into the database as opposed
+    # to having to make it ourselves
+    def add_review(self, user_id, anime_id, rating, description="", title=""):
+        review = {}
+        review[u_id] = user_id
+        review[a_id] = anime_id
+        review[rating_key] = rating
+        review[desc_key] = description
+        review[title_key] = title
+
+        self.insert_reviews_to_db([review])
+
+    # Function to find reviews for an anime
+    def find_reviews(self, anime_id, min_rating=0, max_rating=None, size=10):
+        query = {}
+        query[a_id] = anime_id
+        query[rating_key] = {}
+
+        query[rating_key]["$gt"] = min_rating
+
+        if max_rating is not None:
+            query[rating_key]["$lt"] = max_rating
+
+        # make it so that we only find ratings that contain title and description
+        query[title_key] = {"$ne":""}
+        query[desc_key] = {"$ne":""}
+
+        res = []
+        for doc in self.get_reviews().find(query, limit=size):
+            res.append(doc)
+
+        return res
+
     # Debug function to remove all listed animes
     def drop_reviews(self):
         deleteCount = self.db.review.delete_many({})
@@ -143,6 +176,11 @@ class DBReviewController:
 
     # Helper function that helps build the ratings dictionary
     def build_rating(self, review, ratings):
+        # Early return if review being inserted has a rating of -1 aka user
+        # has watched but hasn't reviewed this anime
+        if review[rating_key] < 0:
+            return
+
         id = review[a_id]
         rating = [0, 0]
         if id in ratings:
@@ -161,10 +199,7 @@ class DBReviewController:
         review = {}
 
         for i in range(0, len(row)):
-            if column_names[i] == u_id:
-                review[column_names[i]] = row[i]
-            else:
-                review[column_names[i]] = self.as_number(row[i])
+            review[column_names[i]] = self.as_number(row[i])
 
         return review
 
