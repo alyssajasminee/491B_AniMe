@@ -2,3 +2,4 @@ app/recommender_system/Miniconda3-py37_4.9.2-Linux-x86_64.sh
 venv/
 .idea/
 app/backend/__pycache__/
+app/recommender_system/data/train.hdf5

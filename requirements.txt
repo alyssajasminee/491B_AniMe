@@ -11,3 +11,6 @@ dnspython
 matplotlib
 scikit-learn
 h5py
+yaml
+tqdm
+scikit-learn
