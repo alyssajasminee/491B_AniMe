@@ -1,0 +1,11 @@
+MODEL: mat_factor # mat_factor bayes_mf boltzmann
+
+NUM_USERS: 100000 # 69605
+NUM_ITEMS: 15000 # 9928
+LATENT_DIM: 128
+
+LR: 0.01
+L2_ALPHA: 0.000001
+
+BATCH_SIZE: 256
+NUM_EPOCHS: 100
