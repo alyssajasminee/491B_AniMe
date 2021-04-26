@@ -3,7 +3,7 @@
     <div id="header">
       <h1 class="display-1 font-weight-bold"> AniMe
       </h1>
-      <h2> Explore and find new animes. </h2>
+      <h2 class="h2"> Explore and find new animes. </h2>
     </div>
     <div v-if="$auth.isAuthenticated">
     <HomeView/>
@@ -27,7 +27,7 @@
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  opacity: 0.3;
+  opacity: 0.2;
   position: absolute;
   z-index: -1;
   width:100%;

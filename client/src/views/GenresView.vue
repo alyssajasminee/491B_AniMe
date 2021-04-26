@@ -1,5 +1,5 @@
 <template>
-  <div class="main-background p-5" >
+  <div class="main-background p-5 m-5" >
     
     <Genres />
    
