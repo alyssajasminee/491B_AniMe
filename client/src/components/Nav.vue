@@ -9,12 +9,20 @@
     </div>
     <div id="navbar" class="navbar-menu">
       <div class="navbar-start">
+        <router-link to="/" class="navbar-item h2">Home</router-link>
         <router-link v-if="$auth.isAuthenticated" to="/user/lists" class="navbar-item h2">My List</router-link>
         <router-link v-if="$auth.isAuthenticated" to="/genres" class="navbar-item h2">Genres</router-link>
         <router-link v-if="$auth.isAuthenticated" class="navbar-item h2" to="/profile">Profile</router-link>
       </div>
       <div class="navbar-end">
         <div class="navbar-item">
+          <div class="search-container">
+            <form action="/action_page.php">
+              <input type="text" placeholder="Search..." name="search">
+              <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+              <button type="submit"><i class="fa fa-search"></i></button>
+            </form>
+          </div>
           <div class="buttons">
             <!-- Check that the SDK client is not currently loading before accessing is methods -->
             <div v-if="!$auth.loading">
@@ -48,6 +56,8 @@
     }
 </script>
 <style lang="scss" scoped>
+  * {box-sizing: border-box;}
+
   nav {
     margin-top: 25px;
     margin-bottom: 30px;
@@ -72,5 +82,29 @@
   }
   .navbar{
     flex-wrap:wrap;
+  }
+
+  .navbar-item {
+
+      input[type=text] {
+      padding: 6px;
+      margin-top: 8px;
+      font-size: 17px;
+      border: none;
+      }
+
+  .search-container button {
+    float: right;
+    padding: 6px 10px;
+    margin-top: 8px;
+    margin-right: 16px;
+    background: #ddd;
+    font-size: 17px;
+    border: none;
+    cursor: pointer;
+  }
+      .search-container button:hover {
+      background: #ccc;
+    }
   }
 </style>

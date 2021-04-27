@@ -14,7 +14,7 @@
  </div>
  <div>
   <div   id="" ref="" class="my_list">
-    <h2  class="text-left pb-4 display-4 font-weight-bold"> My Reccomendations</h2>
+    <h2  class="text-left pb-4 display-4 font-weight-bold">My Reccomendations</h2>
 
 
   </div>

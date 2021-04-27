@@ -5,41 +5,42 @@
             <input type="text" name="name" id="name" :value="name" />
             
             <br />
-            <button class="ml-4 mt-5 btn btn-secondary px-5 rounded-pill font-weight-bold" >Submit Edit</button>
+            <button class="ml-4 mt-5 btn btn-secondary px-5 rounded-pill font-weight-bold" >Save</button>
 
-            <br /><br /><br />
+            <br /><br /><br /><br /><br /><br /><br /><br />
             
         </form>
-        <button class="ml-4 btn btn-secondary rounded-pill px-5 font-weight-bold" @click="deleteAccount">Delete Account</button>
+        <div class="deleteButton">
+          <button class="ml-4 btn btn-danger rounded-pill px-5 font-weight-bold" @click="deleteAccount">Delete Account</button>
+        </div>
     </div>
 </template>
 
 <script>
-import axios from 'axios';
+  import axios from 'axios';
+  import editProfileService from '../services/EditProfileService.js';
     
 export default {
     name: "userprofile",
     
     data() {
         return {
-            user: {},
+            user: [],
             name:'',
         }
     },
     created() {
-    
-        this.userName();
-        
+        this.getUserData();
     },
     methods: {
-        userName(){
-            var e = this.$auth.user.email
-            const path = `http://localhost:5000/userName?email=${e}`;
-            axios.get(path)
-                .then((response) => {
-                this.name = response.data;
-                });
-
+        async getUserData(){
+            const email = await this.$auth.user.email;
+            editProfileService.getUserByEmail(email)
+           .then(
+               (user => {
+                  this.$set(this, "user", user);
+               }).bind(this)
+            );
         },
         EditName(){
             var e = this.$auth.user.email
@@ -70,7 +71,8 @@ export default {
 </script>
 
 <style>
-    .editForm {
-        text-align: center
-    }
+  .editForm {
+    text-align: center
+  }
+
 </style>
