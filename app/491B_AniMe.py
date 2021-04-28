@@ -54,9 +54,9 @@ def recommended():
 	a = Recommender()
 	alist = a.recommend(id)
 
-	
+
 	mylist=[]
-	
+
 	for x in range(len(alist)):
 		i = animes.find_one({"anime_id":alist[x]})
 		mylist.append({"title":i['title'], "type":i['type'], "anime_id" : i['anime_id']})
@@ -96,7 +96,7 @@ def iD(animeId):
 @app.route('/search', methods=['GET', 'PATCH', 'OPTIONS'])
 def search():
 	query = request.args.get('search')
-	u = db.animeDB.find_anime(title = query, size = 200000)
+	u = db.animeDB.find_anime(title = query, size = 200)
 
 	output = []
 	for i in u:
