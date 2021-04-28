@@ -30,7 +30,7 @@ def load_data(infile, split='train', verbose=False):
     return features, gts
 
 
-def get_model(config, train=True, load_path=None):
+def get_model(config, train=True, load_path=None, device=None):
     model_type = config['MODEL']
     num_users  = config['NUM_USERS']
     num_items  = config['NUM_ITEMS']
@@ -50,7 +50,10 @@ def get_model(config, train=True, load_path=None):
         pass
 
     if load_path is not None:
-        state_dict = torch.load(load_path)
+        if device is not None:
+            state_dict = torch.load(load_path, map_location=device)
+        else:
+            state_dict = torch.load(load_path)
         model.load_state_dict(state_dict)
 
     else:
