@@ -37,10 +37,10 @@ def genres():
 		output=[]
 		i = 0
 		for i in g:
-			
+
 			output.append({"title":i['title'], "type":i['type'], "anime_id" : i['anime_id']})
-				
-		g_list.append({j:output})	
+
+		g_list.append({j:output})
 	return jsonify( g_list)
 
 
@@ -52,7 +52,7 @@ def my_list():
 	u = users.find_one({"Email": email})
 	alist = u['AnimeList']
 	mylist=[]
-	
+
 	for x in range(len(alist)):
 		i = animes.find_one({"anime_id":alist[x]})
 		mylist.append({"title":i['title'], "type":i['type'], "anime_id" : i['anime_id']})
@@ -66,16 +66,25 @@ def userName():
 	return jsonify(u['Username'])
 
 # GET ONE ANIMES' INFROMATION
-@app.route('/anime/<int:animeId>', methods=['GET'])	
+@app.route('/anime/<int:animeId>', methods=['GET'])
 def iD(animeId):
 	u = animes.find_one({"anime_id":animeId})
 	output = [{"title":u['title'], "type":u['type'], "anime_id" : u['anime_id'],"synopsis" : u["synopsis"], "producer" : u["producer"], "studio" : u["studio"],
 	"episodes" : u["episodes"], "aired" : u["aired"]}]
 	return jsonify(output)
 
+# GET ANIMES BASED ON QUERY
+@app.route('/search', methods=['GET', 'PATCH', 'OPTIONS'])
+def search():
+	query = request.args.get('search')
+	u = db.animeDB.find_anime(title = query, size = 200000)
 
+	output = []
+	for i in u:
+		output.append({"title":i['title'], "type":i['type'], "anime_id" : i['anime_id']})
+	return jsonify(output)
 
-# ADD AN ANIME TO A USERS LIST 
+# ADD AN ANIME TO A USERS LIST
 @app.route('/addAnime', methods=['GET','PATCH','OPTIONS'])
 def addAnime():
 	anime_id = int(request.args.get('anime_id'))
@@ -96,7 +105,7 @@ def RemoveAnime():
 
 
 
-# PUT A REVIEW FOR AN ANIME 
+# PUT A REVIEW FOR AN ANIME
 @app.route('/ReviewAnime', methods=['GET','POST'])
 def ReviewAnime():
 	anime_id = int(request.args.get('anime_id'))
@@ -109,13 +118,13 @@ def ReviewAnime():
 
 	return jsonify(rating)
 
-# PUT A REVIEW FOR AN ANIME 
+# PUT A REVIEW FOR AN ANIME
 @app.route('/FindReview', methods=['GET'])
 def FindReview():
 	anime_id = int(request.args.get('anime_id'))
 	email = request.args.get('email')
 	u = users.find_one({"Email": email})['user_id']
-	
+
 	r = review.find_one({"anime_id":anime_id,"user_id":u})
 	if r is None:
 		return jsonify(0)
@@ -142,9 +151,9 @@ def addUser():
 def EditUser():
 	email = request.args.get('email')
 	editUsername = request.args.get('username')
-	
+
 	users.update_one({"Email":email},{'$set': { "Username": editUsername}})
-		
+
 	return jsonify(editUsername)
 
 #DELETE USER TO MOONGODB

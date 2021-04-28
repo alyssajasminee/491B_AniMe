@@ -1,9 +1,9 @@
 <template>
   <div>
     <div id="mypicks" ref="mypicks" class="my_list">
-      <h2 class="text-left pb-4 display-4 font-weight-bold">Results for ''</h2>
+      <h2 class="text-left pb-4 display-4 font-weight-bold">Results for '{{query}}'</h2>
       <div class="d-flex flex-wrap">
-        <div class="list-card" v-for="(show, index) in mylist" :key="index"
+        <div class="list-card" v-for="(show, index) in searchlist" :key="index"
              :id="show.anime_id" @click="animeModal(show.anime_id)">
           <div class="m-auto">
             <h5 class="h6 py-3 font-weight-bold">{{show.title}}</h5>
@@ -54,26 +54,28 @@
 
 <script>
   import axios from 'axios';
-  //import searchResultService from '../services/SearchResultService';
+  import searchResultService from '../services/SearchResultService';
+  import { bus } from '../main'
   export default {
     name: 'SearchResults',
     data() {
       return {
         mylist: [],
-
+        searchlist: [],
+        email: "",
         details: [],
         inlist: false,
         rated: false,
         rating: 10,
         name: '',
         id: 0,
-        currentPage: 1
+        currentPage: 1,
+        query: '',
       };
     },
     methods: {
       userName() {
-        var e = this.$auth.user.name
-        const path = `http://localhost:5000/userName?email=${e}`;
+        const path = `http://localhost:5000/userName?email=${this.email}`;
         axios.get(path)
           .then((response) => {
             this.name = response.data;
@@ -81,10 +83,7 @@
 
       },
       getAnimes() {
-
-        var e = this.$auth.user.name
-        console.log(e)
-        const path = `http://localhost:5000/mypicks?email=${e}`;
+        const path = `http://localhost:5000/mypicks?email=${this.email}`;
         axios.get(path)
           .then((response) => {
             this.mylist = response.data;
@@ -105,8 +104,7 @@
             this.inlist = true
           }
         }
-        var e = this.$auth.user.email
-        const path2 = `http://localhost:5000/FindReview?anime_id=${id}&email=${e}`
+        const path2 = `http://localhost:5000/FindReview?anime_id=${id}&email=${this.email}`
         axios.get(path2)
           .then((response) => {
             this.rating = response.data
@@ -122,53 +120,57 @@
         this.$refs.myModal.style.display = 'none';
       },
       addAnime(id) {
-        var e = this.$auth.user.email
-        const path = `http://localhost:5000/addAnime?anime_id=${id}&email=${e}`
+        const path = `http://localhost:5000/addAnime?anime_id=${id}&email=${this.email}`
         axios.patch(path, {}, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).then((response) => {
           this.mylist = response.data;
+          this.inlist = true;
         });
 
       },
       removeAnime(id) {
-        var e = this.$auth.user.email
-        const path = `http://localhost:5000/RemoveAnime?anime_id=${id}&email=${e}`
+        const path = `http://localhost:5000/RemoveAnime?anime_id=${id}&email=${this.email}`
         axios.patch(path, {}).then((response) => {
           this.mylist = response.data;
+          this.inlist = false;
         });
       },
       onSubmit() {
-        var r = document.getElementById("rating").value;
-        var e = this.$auth.user.email
-        var i = this.id
-        const path1 = `http://localhost:5000/ReviewAnime?rating=${r}&anime_id=${i}&email=${e}`
+        let r = document.getElementById("rating").value;
+        let i = this.id
+        const path1 = `http://localhost:5000/ReviewAnime?rating=${r}&anime_id=${i}&email=${this.email}`
 
         axios.get(path1, {}).then((response) => {
-
           this.rating = response.data
           this.rated = true
-
         });
 
       },
-      //nextPage() {
-      //  this.currentPage += 1;
-      //},
-
-      //previousPage() {
-      //  this.currentPage -= 1;
-      //},
-
-      //firstPage() {
-      //  this.currentPage = 1;
-      //},
-
-      //lastPage() {
-      //  this.currentPage = numberOfPages;
-      //}
+      async getEmail() {
+        return await this.$auth.user.email;
+      },
     },
     created() {
-      this.getAnimes();
-      this.userName();
+      this.query = this.$route.query.search
+      this.getEmail()
+        .then(email => {
+          this.email = email
+          this.getAnimes()
+        }
+      );
+      searchResultService.findAnime(this.query)
+        .then(res => {
+          this.searchlist = res
+        }
+      )
+      
+      bus.$on('search', (input) => {
+        searchResultService.findAnime(input)
+          .then(res => {
+            this.query = input;
+            this.searchlist = res
+          }
+        )
+      })
     },
   };
 </script>

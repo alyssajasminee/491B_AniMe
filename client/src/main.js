@@ -27,7 +27,7 @@ Vue.use(Auth0Plugin, {
 
 Vue.config.productionTip = false;
 
-new Vue({
+export const bus = new Vue({
   router,
   render: (h) => h(App),
 }).$mount('#app');

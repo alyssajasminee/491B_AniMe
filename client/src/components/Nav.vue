@@ -17,11 +17,9 @@
       <div class="navbar-end">
         <div class="navbar-item">
           <div class="search-container">
-            <form action="/action_page.php">
-              <input type="text" placeholder="Search..." name="search">
-              <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-              <button type="submit"><i class="fa fa-search"></i></button>
-            </form>
+            <input type="text" placeholder="Search..." name="search" id="search">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+            <button v-on:click="search()"><i class="fa fa-search"></i></button>
           </div>
           <div class="buttons">
             <!-- Check that the SDK client is not currently loading before accessing is methods -->
@@ -39,6 +37,7 @@
   </nav>
 </template>
 <script>
+    import { bus } from '../main'
     export default {
         name: 'Nav',
         methods: {
@@ -51,6 +50,15 @@
                 this.$auth.logout({
                     returnTo: window.location.origin
                 });
+            },
+            search() {
+              const input = document.getElementById('search').value
+              if (this.$route.name != 'searchResults') {
+                this.$router.push(`/search-results?search=${input}`)
+                this.$router.go(1)
+              } else {
+                bus.$emit('search', input)
+              }
             }
         }
     }
