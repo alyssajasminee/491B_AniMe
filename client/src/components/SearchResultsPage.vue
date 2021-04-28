@@ -1,7 +1,7 @@
 <template>
   <div>
     <div id="mypicks" ref="mypicks" class="my_list">
-      <h2 class="text-left pb-4 display-4 font-weight-bold">Results for '{{query}}'</h2>
+      <h2 class="text-left pb-4 p-5 m-5 display-4 font-weight-bold">Results for '{{query}}'</h2>
       <div class="d-flex flex-wrap">
         <div class="list-card" v-for="(show, index) in searchlist" :key="index"
              :id="show.anime_id" @click="animeModal(show.anime_id)">
