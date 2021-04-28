@@ -5,22 +5,29 @@
     <div  class="d-flex flex-wrap">
       <div  class="list-card" v-for="(show, index) in mylist" :key="index"
       :id="show.anime_id" @click="animeModal(show.anime_id)">
-      <div class="justify-content-center">
-        <h5 class="py-3">{{show.title}}</h5>
-        <h6 class="pb-3">{{show.type}}</h6>
+      <div class="m-auto">
+        <h5 class="h6 py-3 font-weight-bold">{{show.title}}</h5>
+        <h6 class="pb-3 font-weight-bold">{{show.type}}</h6>
       </div>
       </div>
     </div>
  </div>
  <div>
-  
+  <div   id="" ref="" class="my_list">
+    <h2  class="text-left pb-4 display-4 font-weight-bold">My Reccomendations</h2>
+
+
+  </div>
+
+
+
   <div id="myModal" ref="myModal" class="modal">
 
     <!-- Modal content -->
     <div class="modal-content" v-for="(d,index) in details" :key="index">
       <button  @click="close()" class=" close btn text-right">x</button>
       
-        <div class="row my-5 mx-1">
+        <div class="row my-5 mx-1 d-block">
         <div>
           <h3 class="h3"><strong>{{d.title}}</strong></h3>
           <p><strong>{{d.type}}</strong></p>
@@ -162,49 +169,9 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 /* The Modal (background) */
-#myModal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
-  padding-top: 100px; /* Location of the box */
-  left: 0;
-  top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-}
 
-/* Modal Content */
-.modal-content {
-  background-color: #fefefe;
-  margin: auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 45%;
-  text-align:left;
-}
-
-/* The Close Button */
-.close {
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-  
-}
-
-.close:hover,
-.close:focus,
-.edit-list:hover {
-  color: #000;
-  text-decoration: none;
-  cursor: pointer;
-  }
-#app{
+body{
   background-color: hsl(224, 19%, 44%);
-  height:auto;
-  position: absolute;
-  width:100%;
+  
 }
 </style>

@@ -35,7 +35,7 @@ const routes = [{
     },
     {
         path: '/profile/:id',
-        name: 'eventSingle',
+        name: 'userProfile',
         component: () =>
             import ('../views/UserProfile.vue')
     },
@@ -44,7 +44,13 @@ const routes = [{
         name: 'ProfileEdit',
         component: () =>
             import ('../views/EditProfile.vue')
-    }
+  },
+  {
+    path: '/search-results',
+    name: 'searchResults',
+    component: () =>
+      import('../components/SearchResultsPage.vue')
+  }
 ];
 const router = new VueRouter({
     mode: 'history',

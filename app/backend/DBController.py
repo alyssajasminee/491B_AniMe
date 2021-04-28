@@ -1,4 +1,5 @@
 import pymongo
+import ssl
 import csv
 import json
 from backend.DBAnimeController import DBAnimeController
@@ -10,7 +11,7 @@ from backend.DBUserController import DBUserController
 class DBController:
     def __init__(self):
         self.errorlog = "backend\\errorlog.txt"
-        self.client = pymongo.MongoClient("mongodb+srv://AniMeAdmin:Haikyu!@cluster0.zhz9r.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
+        self.client = pymongo.MongoClient("mongodb+srv://AniMeAdmin:Haikyu!@cluster0.zhz9r.mongodb.net/myFirstDatabase?retryWrites=true&w=majority", ssl_cert_reqs=ssl.CERT_NONE)
         self.db = self.client.app
         self.userDB = DBUserController(self.errorlog, self.client, self.db)
         self.reviewDB = DBReviewController(self.errorlog, self.client, self.db)

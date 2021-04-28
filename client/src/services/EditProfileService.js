@@ -1,42 +1,5 @@
 import axios from "axios"
 
-//const jwt = require("express-jwt");
-//const jwksRsa = require("jwks-rsa");
-//const jwtAuthz = require("express-jwt-authz");
-
-//const authConfig = {
-//    domain: process.env.AUTH0_DOMAIN,
-//    audience: process.env.AUTH0_AUDIENCE,
-//    clientId: process.env.CLIENT_ID,
-//    clientSecret: process.env.CLIENT_SECRET
-//};
-
-//const managementAPI = new ManagementClient({
-//    domain: authConfig.domain,
-//    clientId: authConfig.clientId,
-//    clientSecret: authConfig.clientSecret
-//});
-
-// Create middleware to validate the JWT using express-jwt
-//const checkJwt = jwt({
-//    // Provide a signing key based on the key identifier in the header and the signing keys provided by your Auth0 JWKS endpoint.
-//    secret: jwksRsa.expressJwtSecret({
-//        cache: true,
-//        rateLimit: true,
-//        jwksRequestsPerMinute: 5,
-//        jwksUri: `https://${authConfig.domain}/.well-known/jwks.json`
-//    }),
-
-//    // Validate the audience (Identifier) and the issuer (Domain).
-//    audience: authConfig.audience,
-//    issuer: `https://${authConfig.domain}/`,
-//    algorithms: ["HS256"]
-//});
-
-// let events = [...]
-
-//const checkPermissions = jwtAuthz(['manage:users'], { customScopeKey: 'permissions' });
-
 const getUsers = async (email) => {
     const res = await axios.get(`https://dev-upkrd-9f.us.auth0.com/api/v2/users`, {
         params: {
@@ -50,12 +13,12 @@ const getUsers = async (email) => {
 };
 
 const getUserByEmail = async (email) => {
-    const res = await axios.get(`https://dev-upkrd-9f.us.auth0.com/api/v2/users-by-email`, {
+  const res = await axios.get(`https://dev-pc3x5o8t.us.auth0.com/api/v2/users-by-email`, {
         params: {
             email: `${email}`
         },
         headers: {
-            Authorization: `Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkNPTnV2MW9Cbl91dWtXcDNXcFRPUSJ9.eyJpc3MiOiJodHRwczovL2Rldi11cGtyZC05Zi51cy5hdXRoMC5jb20vIiwic3ViIjoiSDdOaDVHUVFUcVNZTmZvTVNURFJSQTZPRTNESXRhOEdAY2xpZW50cyIsImF1ZCI6Imh0dHBzOi8vZGV2LXVwa3JkLTlmLnVzLmF1dGgwLmNvbS9hcGkvdjIvIiwiaWF0IjoxNjE3NzcxNDM2LCJleHAiOjE2MTc4NTc4MzYsImF6cCI6Ikg3Tmg1R1FRVHFTWU5mb01TVERSUkE2T0UzREl0YThHIiwic2NvcGUiOiJyZWFkOnVzZXJzIHVwZGF0ZTp1c2VycyBkZWxldGU6dXNlcnMgcmVhZDp1c2Vyc19hcHBfbWV0YWRhdGEgdXBkYXRlOnVzZXJzX2FwcF9tZXRhZGF0YSBkZWxldGU6dXNlcnNfYXBwX21ldGFkYXRhIGNyZWF0ZTp1c2Vyc19hcHBfbWV0YWRhdGEgcmVhZDp1c2VyX2lkcF90b2tlbnMiLCJndHkiOiJjbGllbnQtY3JlZGVudGlhbHMifQ.vEBSBUZda-Pd_cc4tios1XT9egCFlPC0BDRXrOZXAUa_lJWY0rucbj_2KqfdZziCw1Vhf25i2Ar6Yq8CwghUklYoqCIgvWHSSmTABE7_jRvMa4azQnmiuVpaLwMX0LnLjfIrHJgOkH8Up9S54ptWxzash8EyjcMTmyjcOSFsUcU3XehYLymrttSaAedw6L27Vy1rivmgFL99_6dMiWi_5OT9fsSQdBL_2y4B_A-Av-R3FIb2BoiwQfe2Al_pxnc6FYPSHz8uoEjBu7vXgZVbXKnbT0dWlo01iNcTiiRL8p4-xtL-P1sp5cwrr6Sf3GUHEzsv4g9Ls6HC8kSKKINlnw`
+          Authorization: `Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ing5UHFjTUFQV2U0amFwa3lYUzh3biJ9.eyJpc3MiOiJodHRwczovL2Rldi1wYzN4NW84dC51cy5hdXRoMC5jb20vIiwic3ViIjoiMGh4YWlEM0c5anRkVXBvaVpPTHZxNU1KSVlzdGEwNHpAY2xpZW50cyIsImF1ZCI6Imh0dHBzOi8vZGV2LXBjM3g1bzh0LnVzLmF1dGgwLmNvbS9hcGkvdjIvIiwiaWF0IjoxNjE5NDk0MjUzLCJleHAiOjE2MTk1ODA2NTMsImF6cCI6IjBoeGFpRDNHOWp0ZFVwb2laT0x2cTVNSklZc3RhMDR6Iiwic2NvcGUiOiJyZWFkOmNsaWVudF9ncmFudHMgY3JlYXRlOmNsaWVudF9ncmFudHMgZGVsZXRlOmNsaWVudF9ncmFudHMgdXBkYXRlOmNsaWVudF9ncmFudHMgcmVhZDp1c2VycyB1cGRhdGU6dXNlcnMgZGVsZXRlOnVzZXJzIGNyZWF0ZTp1c2VycyByZWFkOnVzZXJzX2FwcF9tZXRhZGF0YSB1cGRhdGU6dXNlcnNfYXBwX21ldGFkYXRhIGRlbGV0ZTp1c2Vyc19hcHBfbWV0YWRhdGEgY3JlYXRlOnVzZXJzX2FwcF9tZXRhZGF0YSByZWFkOnVzZXJfY3VzdG9tX2Jsb2NrcyBjcmVhdGU6dXNlcl9jdXN0b21fYmxvY2tzIGRlbGV0ZTp1c2VyX2N1c3RvbV9ibG9ja3MgY3JlYXRlOnVzZXJfdGlja2V0cyByZWFkOmNsaWVudHMgdXBkYXRlOmNsaWVudHMgZGVsZXRlOmNsaWVudHMgY3JlYXRlOmNsaWVudHMgcmVhZDpjbGllbnRfa2V5cyB1cGRhdGU6Y2xpZW50X2tleXMgZGVsZXRlOmNsaWVudF9rZXlzIGNyZWF0ZTpjbGllbnRfa2V5cyByZWFkOmNvbm5lY3Rpb25zIHVwZGF0ZTpjb25uZWN0aW9ucyBkZWxldGU6Y29ubmVjdGlvbnMgY3JlYXRlOmNvbm5lY3Rpb25zIHJlYWQ6cmVzb3VyY2Vfc2VydmVycyB1cGRhdGU6cmVzb3VyY2Vfc2VydmVycyBkZWxldGU6cmVzb3VyY2Vfc2VydmVycyBjcmVhdGU6cmVzb3VyY2Vfc2VydmVycyByZWFkOmRldmljZV9jcmVkZW50aWFscyB1cGRhdGU6ZGV2aWNlX2NyZWRlbnRpYWxzIGRlbGV0ZTpkZXZpY2VfY3JlZGVudGlhbHMgY3JlYXRlOmRldmljZV9jcmVkZW50aWFscyByZWFkOnJ1bGVzIHVwZGF0ZTpydWxlcyBkZWxldGU6cnVsZXMgY3JlYXRlOnJ1bGVzIHJlYWQ6cnVsZXNfY29uZmlncyB1cGRhdGU6cnVsZXNfY29uZmlncyBkZWxldGU6cnVsZXNfY29uZmlncyByZWFkOmhvb2tzIHVwZGF0ZTpob29rcyBkZWxldGU6aG9va3MgY3JlYXRlOmhvb2tzIHJlYWQ6YWN0aW9ucyB1cGRhdGU6YWN0aW9ucyBkZWxldGU6YWN0aW9ucyBjcmVhdGU6YWN0aW9ucyByZWFkOmVtYWlsX3Byb3ZpZGVyIHVwZGF0ZTplbWFpbF9wcm92aWRlciBkZWxldGU6ZW1haWxfcHJvdmlkZXIgY3JlYXRlOmVtYWlsX3Byb3ZpZGVyIGJsYWNrbGlzdDp0b2tlbnMgcmVhZDpzdGF0cyByZWFkOnRlbmFudF9zZXR0aW5ncyB1cGRhdGU6dGVuYW50X3NldHRpbmdzIHJlYWQ6bG9ncyByZWFkOmxvZ3NfdXNlcnMgcmVhZDpzaGllbGRzIGNyZWF0ZTpzaGllbGRzIHVwZGF0ZTpzaGllbGRzIGRlbGV0ZTpzaGllbGRzIHJlYWQ6YW5vbWFseV9ibG9ja3MgZGVsZXRlOmFub21hbHlfYmxvY2tzIHVwZGF0ZTp0cmlnZ2VycyByZWFkOnRyaWdnZXJzIHJlYWQ6Z3JhbnRzIGRlbGV0ZTpncmFudHMgcmVhZDpndWFyZGlhbl9mYWN0b3JzIHVwZGF0ZTpndWFyZGlhbl9mYWN0b3JzIHJlYWQ6Z3VhcmRpYW5fZW5yb2xsbWVudHMgZGVsZXRlOmd1YXJkaWFuX2Vucm9sbG1lbnRzIGNyZWF0ZTpndWFyZGlhbl9lbnJvbGxtZW50X3RpY2tldHMgcmVhZDp1c2VyX2lkcF90b2tlbnMgY3JlYXRlOnBhc3N3b3Jkc19jaGVja2luZ19qb2IgZGVsZXRlOnBhc3N3b3Jkc19jaGVja2luZ19qb2IgcmVhZDpjdXN0b21fZG9tYWlucyBkZWxldGU6Y3VzdG9tX2RvbWFpbnMgY3JlYXRlOmN1c3RvbV9kb21haW5zIHVwZGF0ZTpjdXN0b21fZG9tYWlucyByZWFkOmVtYWlsX3RlbXBsYXRlcyBjcmVhdGU6ZW1haWxfdGVtcGxhdGVzIHVwZGF0ZTplbWFpbF90ZW1wbGF0ZXMgcmVhZDptZmFfcG9saWNpZXMgdXBkYXRlOm1mYV9wb2xpY2llcyByZWFkOnJvbGVzIGNyZWF0ZTpyb2xlcyBkZWxldGU6cm9sZXMgdXBkYXRlOnJvbGVzIHJlYWQ6cHJvbXB0cyB1cGRhdGU6cHJvbXB0cyByZWFkOmJyYW5kaW5nIHVwZGF0ZTpicmFuZGluZyBkZWxldGU6YnJhbmRpbmcgcmVhZDpsb2dfc3RyZWFtcyBjcmVhdGU6bG9nX3N0cmVhbXMgZGVsZXRlOmxvZ19zdHJlYW1zIHVwZGF0ZTpsb2dfc3RyZWFtcyBjcmVhdGU6c2lnbmluZ19rZXlzIHJlYWQ6c2lnbmluZ19rZXlzIHVwZGF0ZTpzaWduaW5nX2tleXMgcmVhZDpsaW1pdHMgdXBkYXRlOmxpbWl0cyBjcmVhdGU6cm9sZV9tZW1iZXJzIHJlYWQ6cm9sZV9tZW1iZXJzIGRlbGV0ZTpyb2xlX21lbWJlcnMgcmVhZDplbnRpdGxlbWVudHMgcmVhZDpvcmdhbml6YXRpb25zIHVwZGF0ZTpvcmdhbml6YXRpb25zIGNyZWF0ZTpvcmdhbml6YXRpb25zIGRlbGV0ZTpvcmdhbml6YXRpb25zIGNyZWF0ZTpvcmdhbml6YXRpb25fbWVtYmVycyByZWFkOm9yZ2FuaXphdGlvbl9tZW1iZXJzIGRlbGV0ZTpvcmdhbml6YXRpb25fbWVtYmVycyBjcmVhdGU6b3JnYW5pemF0aW9uX2Nvbm5lY3Rpb25zIHJlYWQ6b3JnYW5pemF0aW9uX2Nvbm5lY3Rpb25zIHVwZGF0ZTpvcmdhbml6YXRpb25fY29ubmVjdGlvbnMgZGVsZXRlOm9yZ2FuaXphdGlvbl9jb25uZWN0aW9ucyBjcmVhdGU6b3JnYW5pemF0aW9uX21lbWJlcl9yb2xlcyByZWFkOm9yZ2FuaXphdGlvbl9tZW1iZXJfcm9sZXMgZGVsZXRlOm9yZ2FuaXphdGlvbl9tZW1iZXJfcm9sZXMgY3JlYXRlOm9yZ2FuaXphdGlvbl9pbnZpdGF0aW9ucyByZWFkOm9yZ2FuaXphdGlvbl9pbnZpdGF0aW9ucyBkZWxldGU6b3JnYW5pemF0aW9uX2ludml0YXRpb25zIiwiZ3R5IjoiY2xpZW50LWNyZWRlbnRpYWxzIn0.S7JzG1BkW9uaKfYGNfGpJ9oeRfCp_0SO9KjUw4n9EIAui-w4pokDIwgpmzOKaTUWTbsGyW4SaflN8zVdpx1SxYWU7O3XBi0LhoXeCM8eJOUFf7ldCUrUrxZs1g4BNbPfa-N-RiSDYoH3BtwHsX3-tIW2qqW8h_etIR6xCrksngQmKs9yKMewdz2qIdJOGKopsz9iIHjWT3-AHeNjv-olypIkuLG6RJGq9fNIw8pUWCeA8VTTFjASMOvMaDFUYDRcLGOMqmZQvSjSAvNt8ru8YEfiw8iQklPLQTFleF0PaJSxhkJI067Kpd4KGvpAKHGA8GNq-bVav_CTBqwkq9kkaA`
         }
     });
     return res.data;
