@@ -7,13 +7,13 @@ from recommender_system.utils import *
 
 class Recommender:
     def __init__(self):
-        with open('../configs/config.yaml', 'r') as stream:
+        with open('./configs/config.yaml', 'r') as stream:
             self.settings = yaml.safe_load(stream)
 
         self.model_type = self.settings['MODEL']
 
         model_path = os.path.join('./models', self.model_type + '.pth')
-        self.model_dict = get_model(self.settings, load_path=model_path)
+        self.model_dict = get_model(self.settings, load_path=model_path, device=torch.device('cpu'))
 
     def get_item_idxs(self, user_id):
         rdb_controller = dbc.DBController().reviewDB
@@ -43,20 +43,30 @@ class Recommender:
         return item_idxs
 
     def recommend(self, user_id, k=10):
+        uidx_controller = dbc.DBController().userIdxDB
+        aidx_controller = dbc.DBController().animeIdxDB
+
+        user_id = uidx_controller.get_new_user_id(user_id)
+
         item_idxs = self.get_item_idxs(user_id)
 
-        items = self.model_dict['model'].items(torch.LongTensor(item_idxs)).numpy()
+        items = self.model_dict['model'].items(torch.LongTensor(item_idxs)).detach().numpy()
         ball_tree = BallTree(items, leaf_size=33)
 
-        query = self.model_dict['model'].users(torch.LongTensor([user_id])).numpy()
+        query = self.model_dict['model'].users(torch.LongTensor([user_id])).detach().numpy()
 
         _, idxs = ball_tree.query(query, k=k)
 
         recommended_items = []
-        for idx in idxs:
+        for idx in idxs[0]:
             recommended_item = items[idx]
+            item_embeddings = self.model_dict['model'].items.weight.data
 
-            distance = torch.norm(items.weight.data - recommended_item, dim=1)
-            recommended_items.append(torch.argmin(distance).item())
+            distance = torch.norm(item_embeddings - recommended_item, dim=1)
+            recommended_item = torch.argmin(distance).item()
+
+            anime_id = aidx_controller.get_anime_id(recommended_item)
+
+            recommended_items.append(anime_id)
 
         return recommended_items
