@@ -1,8 +1,9 @@
 import yaml
-import app.backend.DBController as dbc
-
+import backend.DBController as dbc
+import os
+import torch
 from sklearn.neighbors import BallTree
-from recommender_system.utils import *
+from recommender_system.utils import get_model
 
 
 class Recommender:
@@ -43,7 +44,7 @@ class Recommender:
         return item_idxs
 
     def recommend(self, user_id, k=10):
-        item_idxs = self.get_item_idxs(user_id)
+        item_idxs = self.get_item_idxs(self,user_id)
 
         items = self.model_dict['model'].items(torch.LongTensor(item_idxs)).numpy()
         ball_tree = BallTree(items, leaf_size=33)
@@ -60,3 +61,6 @@ class Recommender:
             recommended_items.append(torch.argmin(distance).item())
 
         return recommended_items
+
+
+

@@ -69,7 +69,7 @@ export default {
   data() {
     return {
       mylist: [],
-      
+      recc: [],
       details: [],
       inlist: false,
       rated: false,
@@ -80,7 +80,7 @@ export default {
   },
   methods: {
     userName(){
-      var e = this.$auth.user.name
+      var e = this.$auth.user.email
       const path = `http://localhost:5000/userName?email=${e}`;
       axios.get(path)
         .then((response) => {
@@ -90,12 +90,22 @@ export default {
     },
     getAnimes() {
       
-      var e = this.$auth.user.name
+      var e = this.$auth.user.email
       console.log(e)
       const path = `http://localhost:5000/mypicks?email=${e}`;
       axios.get(path)
         .then((response) => {
           this.mylist = response.data;
+        });
+    },
+    getReccomended() {
+      
+      var e = this.$auth.user.email
+      console.log(e)
+      const path = `http://localhost:5000/recommended?email=${e}`;
+      axios.get(path)
+        .then((response) => {
+          this.recc = response.data;
         });
     },
     
@@ -162,6 +172,7 @@ export default {
   created() {
     this.getAnimes();
     this.userName();
+    this.getReccomended();
   },
 };
 </script>
