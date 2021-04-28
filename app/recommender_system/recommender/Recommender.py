@@ -65,7 +65,6 @@ class Recommender:
             distance = torch.norm(item_embeddings - recommended_item, dim=1)
             recommended_item = torch.argmin(distance).item()
 
-            print(recommended_item)
             anime_id = aidx_controller.get_anime_id(recommended_item)
 
             recommended_items.append(anime_id)
