@@ -19,8 +19,9 @@ class Recommender:
         self.model_dict = get_model(self.settings, load_path=model_path, device=torch.device('cpu'))
 
     def get_item_idxs(self, user_id):
-        rdb_controller = dbc.DBController().reviewDB
-        reviews_db = rdb_controller.get_reviews()
+        db_controller = dbc.DBController()
+        reviews_db = db_controller.reviewDB.get_reviews()
+        anime_idx_db = db_controller.animeIdxDB
 
         pipeline = [
             {
@@ -28,17 +29,17 @@ class Recommender:
             }
         ]
 
-        max_item_id = reviews_db.aggregate(pipeline)
+        max_item_id = anime_idx_db.db.aggregate(pipeline)
         max_item_id = list(max_item_id)
         max_item_id = max_item_id[0]['max_id']
 
         all_idxs = set(range(max_item_id))
 
-        query = {'new_user_id': user_id}
+        query = {'user_id': user_id, 'rating': {'$ne': -1}}
         user_ratings = reviews_db.find(query)
         user_ratings = list(user_ratings)
 
-        rated_items = [rating_dict['new_anime_id'] for rating_dict in user_ratings]
+        rated_items = [anime_idx_db.get_new_anime_id(rating_dict['anime_id']) for rating_dict in user_ratings]
 
         rated_idxs = set(rated_items)
         item_idxs = list(all_idxs - rated_idxs)
@@ -49,9 +50,9 @@ class Recommender:
         uidx_controller = dbc.DBController().userIdxDB
         aidx_controller = dbc.DBController().animeIdxDB
 
-        user_id = uidx_controller.get_new_user_id(user_id)
-
         item_idxs = self.get_item_idxs(user_id)
+
+        user_id = uidx_controller.get_new_user_id(user_id)
 
         items = self.model_dict['model'].items(torch.LongTensor(item_idxs)).detach().numpy()
         ball_tree = BallTree(items, leaf_size=33)
