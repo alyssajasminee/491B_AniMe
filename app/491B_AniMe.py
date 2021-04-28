@@ -7,6 +7,7 @@ from flask_pymongo import PyMongo
 from bson import json_util
 import json
 from bson.objectid import ObjectId
+from recommender_system.recommender.Recommender import Recommender
 
 db = DBController()
 # configuration
@@ -42,6 +43,21 @@ def genres():
 				
 		g_list.append({j:output})	
 	return jsonify( g_list)
+
+
+# GET THE USERS reccomended LIST OF ANIMES
+@app.route('/recommended', methods=['GET'])
+def recommended():
+	email = request.args.get('email')
+	id = users.find_one({"Email": email})['user_id']
+	a = Recommender
+	alist = a.recommend(a,id)
+	mylist=[]
+	
+	for x in range(len(alist)):
+		i = animes.find_one({"anime_id":alist[x]})
+		mylist.append({"title":i['title'], "type":i['type'], "anime_id" : i['anime_id']})
+	return jsonify( mylist)
 
 
 

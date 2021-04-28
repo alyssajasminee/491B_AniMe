@@ -1,8 +1,9 @@
 import yaml
-import app.backend.DBController as dbc
-
+import backend.DBController as dbc
+import os
+import torch
 from sklearn.neighbors import BallTree
-from recommender_system.utils import *
+from recommender_system.utils import get_model
 
 
 class Recommender:
@@ -70,3 +71,6 @@ class Recommender:
             recommended_items.append(anime_id)
 
         return recommended_items
+
+
+
