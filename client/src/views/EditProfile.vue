@@ -10,9 +10,9 @@
             <br /><br /><br /><br /><br /><br /><br /><br />
             
         </form>
-        <div class="deleteButton">
+        <!-- <div class="deleteButton">
           <button class="ml-4 btn btn-danger rounded-pill px-5 font-weight-bold" @click="deleteAccount">Delete Account</button>
-        </div>
+        </div> -->
     </div>
 </template>
 
@@ -53,17 +53,17 @@ export default {
                 });
             
         },
-        deleteAccount(){
-            var e = this.$auth.user.email
-            const path = `http://localhost:5000/DeleteUser?email=${e}`;
-            axios.delete(path,{})
-                .then(() => {
-                    this.$auth.logout({
-                    returnTo: window.location.origin
-                    });
-                });
+        // deleteAccount(){
+        //     var e = this.$auth.user.email
+        //     const path = `http://localhost:5000/DeleteUser?email=${e}`;
+        //     axios.delete(path,{})
+        //         .then(() => {
+        //             this.$auth.logout({
+        //             returnTo: window.location.origin
+        //             });
+        //         });
             
-        },
+        // },
         }
         
     

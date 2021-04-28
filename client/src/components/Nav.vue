@@ -9,14 +9,13 @@
     </div>
     <div id="navbar" class="navbar-menu">
       <div class="navbar-start">
-        <router-link to="/" class="navbar-item h2">Home</router-link>
-        <router-link v-if="$auth.isAuthenticated" to="/user/lists" class="navbar-item h2">My List</router-link>
+        <router-link v-if="$auth.isAuthenticated" to="/user/lists" class="navbar-item h2">Home</router-link>
         <router-link v-if="$auth.isAuthenticated" to="/genres" class="navbar-item h2">Genres</router-link>
         <router-link v-if="$auth.isAuthenticated" class="navbar-item h2" to="/profile">Profile</router-link>
       </div>
       <div class="navbar-end">
         <div class="navbar-item">
-          <div class="search-container">
+          <div  v-if="$auth.isAuthenticated" class="search-container">
             <form action="/action_page.php">
               <input type="text" placeholder="Search..." name="search">
               <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
