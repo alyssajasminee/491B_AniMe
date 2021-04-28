@@ -15,39 +15,40 @@
     <div>
       <div id="myModal" ref="myModal" class="modal">
 
-        <!-- Modal content -->
-        <div class="modal-content" v-for="(d,index) in details" :key="index">
-          <button @click="close()" class=" close btn text-right">x</button>
-
-          <div class="row my-5 mx-1 d-block">
-            <div>
-              <h3 class="h3"><strong>{{d.title}}</strong></h3>
-              <p><strong>{{d.type}}</strong></p>
-            </div>
-
-            <button v-if=" !inlist" class="ml-auto mr-4 btn btn-secondary rounded-pill edit-list px-4 font-weight-bold" @click="addAnime(d.anime_id)"> Add to my list </button>
-            <button v-else class="ml-auto mr-4 btn btn-secondary rounded-pill edit-list px-4 font-weight-bold" @click="removeAnime(d.anime_id)"> Remove from my list </button>
-          </div>
-
-          <p class="mb-5">{{d.synopsis}}</p>
-          <p><strong>Producers:</strong> <span v-for="(p, index) in d.producer" :key="index">{{p}}, </span></p>
-          <p><strong>Aired:</strong> {{d.aired}}</p>
-          <p><strong>Studio:</strong> <span v-for="(s, index) in d.studio" :key="index">{{s}},</span></p>
-          <p v-if="rated" class=""> <strong>You rated this {{rating}} / 10 </strong> </p>
-          <div v-else-if="!rated && inlist">
-            <p> <strong>Rate this: </strong> </p>
-
-
-            <form class="row" v-on:submit.prevent="onSubmit">
-
-              <input class="ml-4" name="rating" id="rating" type="number" min="1" max="10" step="1">
-              <p class="ml-1">out of 10</p>
-              <button class="ml-4 btn btn-secondary rounded-pill submitRating">Submit Rating</button>
-            </form>
-          </div>
-
+    <!-- Modal content -->
+    <div class="modal-content" v-for="(d,index) in details" :key="index">
+      <button  @click="close()" class=" close btn text-right">x</button>
+      
+      <div class="row my-5 mx-1 d-flex">
+        <div>
+          <h3 class="h3"><strong>{{d.title}}</strong></h3>
+          <p><strong>{{d.type}}</strong></p>
+          <p class="font-weight-bold ">Rated: {{d.rating}}/10</p>
         </div>
+        
+        <button v-if=" !inlist" class="ml-auto mr-4 btn btn-secondary rounded-pill edit-list px-4 font-weight-bold h-100 mt-4 py-3" @click="addAnime(d.anime_id)"> Add to my list </button>
+        <button v-else class="ml-auto mr-4 btn btn-secondary rounded-pill edit-list px-4 font-weight-bold mt-4 h-100 py-3" @click="removeAnime(d.anime_id)"> Remove from my list </button>
       </div>
+      
+      <p class="mb-5">{{d.synopsis}}</p>
+      <p><strong>Producers:</strong> <span v-for="(p, index) in d.producer" :key="index">{{p}}, </span></p>
+      <p><strong>Aired:</strong> {{d.aired}}</p>
+      <p><strong>Studio:</strong> <span v-for="(s, index) in d.studio" :key="index">{{s}},</span></p>
+      <p v-if="rated" class=""> <strong>You rated this {{rating}} / 10 </strong> </p> 
+      <div v-else-if="!rated && inlist">
+        <p > <strong>Rate this: </strong> </p> 
+
+
+        <form class="row" v-on:submit.prevent="onSubmit">
+          
+          <input class="ml-4" name="rating" id="rating" type="number" min="1" max="10" step="1">
+          <p class="ml-1">out of 10</p>
+           <button class="ml-4 btn btn-secondary rounded-pill submitRating" >Submit Rating</button>
+        </form>
+      </div>
+      
+    </div>
+  </div>
     </div>
   </div>
 </template>

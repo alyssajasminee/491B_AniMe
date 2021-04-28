@@ -29,14 +29,15 @@
     <div class="modal-content" v-for="(d,index) in details" :key="index">
       <button  @click="close()" class=" close btn text-right">x</button>
       
-        <div class="row my-5 mx-1 d-block">
+      <div class="row my-5 mx-1 d-flex">
         <div>
           <h3 class="h3"><strong>{{d.title}}</strong></h3>
           <p><strong>{{d.type}}</strong></p>
+          <p class="font-weight-bold ">Rated: {{d.rating}}/10</p>
         </div>
         
-        <button v-if=" !inlist" class="ml-auto mr-4 btn btn-secondary rounded-pill edit-list px-4 font-weight-bold" @click="addAnime(d.anime_id)"> Add to my list </button>
-        <button v-else class="ml-auto mr-4 btn btn-secondary rounded-pill edit-list px-4 font-weight-bold" @click="removeAnime(d.anime_id)"> Remove from my list </button>
+        <button v-if=" !inlist" class="ml-auto mr-4 btn btn-secondary rounded-pill edit-list px-4 font-weight-bold h-100 mt-4 py-3" @click="addAnime(d.anime_id)"> Add to my list </button>
+        <button v-else class="ml-auto mr-4 btn btn-secondary rounded-pill edit-list px-4 font-weight-bold mt-4 h-100 py-3" @click="removeAnime(d.anime_id)"> Remove from my list </button>
       </div>
       
       <p class="mb-5">{{d.synopsis}}</p>
