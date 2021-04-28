@@ -1,5 +1,5 @@
 import yaml
-import app.backend.DBController as dbc
+import backend.DBController as dbc
 
 from sklearn.neighbors import BallTree
 from recommender_system.utils import *
@@ -7,12 +7,12 @@ from recommender_system.utils import *
 
 class Recommender:
     def __init__(self):
-        with open('./configs/config.yaml', 'r') as stream:
+        with open('../491B_AniMe/app/recommender_system/configs/config.yaml', 'r') as stream:
             self.settings = yaml.safe_load(stream)
 
         self.model_type = self.settings['MODEL']
 
-        model_path = os.path.join('./models', self.model_type + '.pth')
+        model_path = os.path.join('../491B_AniMe/app/recommender_system/models', self.model_type + '.pth')
         self.model_dict = get_model(self.settings, load_path=model_path, device=torch.device('cpu'))
 
     def get_item_idxs(self, user_id):

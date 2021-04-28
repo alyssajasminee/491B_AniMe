@@ -7,6 +7,7 @@ from flask_pymongo import PyMongo
 from bson import json_util
 import json
 from bson.objectid import ObjectId
+from recommender_system.recommender.Recommender import Recommender
 
 db = DBController()
 # configuration
@@ -33,7 +34,7 @@ def genres():
 'School','Sci-Fi','Seinen','Shoujo','Shoujo Ai','Shounen','Shounen Ai','Slice of Life','Space','Sports','Super Power',
 'Supernatural','Thriller','Vampire','Yaoi','Yuri']
 	for j in genres:
-		g=animes.find({"genre":j}).limit(35)
+		g=animes.find({"genre":j}).limit(48)
 		output=[]
 		i = 0
 		for i in g:
@@ -42,6 +43,21 @@ def genres():
 				
 		g_list.append({j:output})	
 	return jsonify( g_list)
+
+
+# GET THE USERS reccomended LIST OF ANIMES
+@app.route('/recommended', methods=['GET'])
+def recommended():
+	email = request.args.get('email')
+	id = users.find_one({"Email": email})['user_id']
+	a = Recommender()
+	alist = a.recommend(id)
+	mylist=[]
+	
+	for x in range(len(alist)):
+		i = animes.find_one({"anime_id":alist[x]})
+		mylist.append({"title":i['title'], "type":i['type'], "anime_id" : i['anime_id']})
+	return jsonify( mylist)
 
 
 
@@ -70,7 +86,7 @@ def userName():
 def iD(animeId):
 	u = animes.find_one({"anime_id":animeId})
 	output = [{"title":u['title'], "type":u['type'], "anime_id" : u['anime_id'],"synopsis" : u["synopsis"], "producer" : u["producer"], "studio" : u["studio"],
-	"episodes" : u["episodes"], "aired" : u["aired"]}]
+	"episodes" : u["episodes"], "aired" : u["aired"], "rating": int(u["rating"])}]
 	return jsonify(output)
 
 
