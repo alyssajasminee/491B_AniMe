@@ -153,6 +153,7 @@ export default {
       const path = `http://localhost:5000/addAnime?anime_id=${id}&email=${e}`
       axios.patch(path,{},{ headers: { 'Content-Type': 'application/x-www-form-urlencoded' }}).then((response) => {
           this.mylist = response.data;
+          this.inlist = true;
         });
       
     },
@@ -161,6 +162,7 @@ export default {
       const path = `http://localhost:5000/RemoveAnime?anime_id=${id}&email=${e}`
       axios.patch(path,{}).then((response) => {
           this.mylist = response.data;
+          this.inlist = false;
         });
     },
     onSubmit(){
