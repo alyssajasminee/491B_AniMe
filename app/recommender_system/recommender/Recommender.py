@@ -1,8 +1,11 @@
 import yaml
 import backend.DBController as dbc
 
+import os
+import torch
+
 from sklearn.neighbors import BallTree
-from recommender_system.utils import *
+from recommender_system.utils import get_model
 
 
 class Recommender:
@@ -65,9 +68,11 @@ class Recommender:
             distance = torch.norm(item_embeddings - recommended_item, dim=1)
             recommended_item = torch.argmin(distance).item()
 
-            print(recommended_item)
             anime_id = aidx_controller.get_anime_id(recommended_item)
 
             recommended_items.append(anime_id)
 
         return recommended_items
+
+
+

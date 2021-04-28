@@ -5,7 +5,9 @@ import numpy as np
 
 from tqdm import tqdm
 from torch.autograd import Variable
+
 from recommender_system.models.matrix_factorization import MatrixFactorization
+
 
 
 def load_data(infile, split='train', verbose=False):

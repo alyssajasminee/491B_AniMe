@@ -25,7 +25,9 @@ import axios from 'axios';
         },
         methods: {
             userName(){
+
             var e = this.$auth.user.email
+
             const path = `http://localhost:5000/userName?email=${e}`;
             axios.get(path)
                 .then((response) => {

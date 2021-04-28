@@ -106,7 +106,9 @@ export default {
           this.mylist = response.data;
         });
     },
-    getrecommened() {
+
+    getReccomended() {
+
       
       var e = this.$auth.user.email
       console.log(e)
@@ -180,7 +182,9 @@ export default {
   created() {
     this.getAnimes();
     this.userName();
+
     this.getrecommened();
+
   },
 };
 </script>

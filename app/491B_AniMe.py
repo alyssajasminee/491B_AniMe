@@ -50,8 +50,11 @@ def genres():
 def recommended():
 	email = request.args.get('email')
 	id = users.find_one({"Email": email})['user_id']
+
 	a = Recommender()
 	alist = a.recommend(id)
+
+	
 	mylist=[]
 	
 	for x in range(len(alist)):
