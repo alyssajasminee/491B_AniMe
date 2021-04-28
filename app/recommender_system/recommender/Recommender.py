@@ -44,7 +44,12 @@ class Recommender:
         return item_idxs
 
     def recommend(self, user_id, k=10):
-        item_idxs = self.get_item_idxs(self,user_id)
+        uidx_controller = dbc.DBController().userIdxDB
+        aidx_controller = dbc.DBController().animeIdxDB
+
+        user_id = uidx_controller.get_new_user_id(user_id)
+
+        item_idxs = self.get_item_idxs(user_id)
 
         items = self.model_dict['model'].items(torch.LongTensor(item_idxs)).detach().numpy()
         ball_tree = BallTree(items, leaf_size=33)
