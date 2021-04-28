@@ -15,19 +15,10 @@
       </div>
       <div class="navbar-end">
         <div class="navbar-item">
-<<<<<<< HEAD
           <div class="search-container">
             <input type="text" placeholder="Search..." name="search" id="search">
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
             <button v-on:click="search()"><i class="fa fa-search"></i></button>
-=======
-          <div  v-if="$auth.isAuthenticated" class="search-container">
-            <form action="/action_page.php">
-              <input type="text" placeholder="Search..." name="search">
-              <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-              <button type="submit"><i class="fa fa-search"></i></button>
-            </form>
->>>>>>> d2726296fc3f97794b3518e506058894ce7bd8da
           </div>
           <div class="buttons">
             <!-- Check that the SDK client is not currently loading before accessing is methods -->
