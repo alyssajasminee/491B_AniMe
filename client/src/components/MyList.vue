@@ -107,7 +107,7 @@ export default {
         });
     },
 
-    getReccomended() {
+    getRecommened() {
 
       
       var e = this.$auth.user.email
@@ -185,7 +185,7 @@ export default {
     this.getAnimes();
     this.userName();
 
-    this.getrecommened();
+    this.getRecommened();
 
   },
 };
