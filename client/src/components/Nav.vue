@@ -15,7 +15,7 @@
       </div>
       <div class="navbar-end">
         <div class="navbar-item">
-          <div class="search-container">
+          <div  v-if="$auth.isAuthenticated" class="search-container">
             <input type="text" placeholder="Search..." name="search" id="search">
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
             <button v-on:click="search()"><i class="fa fa-search"></i></button>
